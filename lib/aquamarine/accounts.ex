@@ -3,8 +3,6 @@ defmodule Aquamarine.Accounts do
   The Accounts context.
   """
 
-  import Ecto.Query
-
   alias Aquamarine.Repo
   alias Aquamarine.Accounts.User
 

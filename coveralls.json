@@ -1,0 +1,7 @@
+{
+  "skip_files": [
+    "test/factories",
+    "test/support",
+    "lib/aquamarine/repo.ex"
+  ]
+}

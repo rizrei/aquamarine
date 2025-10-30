@@ -1,4 +1,4 @@
 defmodule Aquamarine.Factory do
   use ExMachina.Ecto, repo: Aquamarine.Repo
-  use Aquamarine.Factories.{UserFactory}
+  use Aquamarine.Factories.{UserFactory, PlaceFactory, ReviewFactory, BookingFactory}
 end

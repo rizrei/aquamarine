@@ -1,5 +1,5 @@
 defmodule Aquamarine.AccountsTest do
-  use Aquamarine.DataCase
+  use Aquamarine.DataCase, async: true
 
   alias Aquamarine.Accounts
   alias Aquamarine.Accounts.User

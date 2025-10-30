@@ -1,5 +1,10 @@
 defmodule Aquamarine.Accounts.User do
+  @moduledoc """
+  The User schema.
+  """
+
   use Ecto.Schema
+
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -10,8 +15,8 @@ defmodule Aquamarine.Accounts.User do
     field :password_hash, :string, redact: true
     field :password, :string, virtual: true, redact: true
 
-    # has_many :bookings, Getaways.Vacation.Booking
-    # has_many :reviews, Getaways.Vacation.Review
+    has_many :bookings, Aquamarine.Vacations.Booking
+    has_many :reviews, Aquamarine.Vacations.Review
 
     timestamps(type: :utc_datetime)
   end
@@ -32,7 +37,7 @@ defmodule Aquamarine.Accounts.User do
     |> unsafe_validate_unique(:name, Aquamarine.Repo)
     |> unique_constraint(:name)
     |> unique_constraint(:email)
-    |> maybe_hash_password()
+    |> put_password_hash()
   end
 
   @doc """
@@ -51,11 +56,11 @@ defmodule Aquamarine.Accounts.User do
     false
   end
 
-  defp maybe_hash_password(%{valid?: true, changes: %{password: password}} = changeset) do
+  defp put_password_hash(%{valid?: true, changes: %{password: password}} = changeset) do
     put_change(changeset, :password_hash, Bcrypt.hash_pwd_salt(password))
   end
 
-  defp maybe_hash_password(changeset) do
+  defp put_password_hash(changeset) do
     changeset
   end
 end

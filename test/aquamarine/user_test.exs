@@ -1,15 +1,14 @@
 defmodule Aquamarine.UserTest do
-  use Aquamarine.DataCase
+  use Aquamarine.DataCase, async: true
 
   alias Aquamarine.Accounts.User
 
   describe "changeset/2" do
     test "required fields to be set" do
       changeset = User.changeset(%User{}, %{})
+      required_fields = [:name, :email, :password] |> Enum.sort()
 
-      assert %{email: ["can't be blank"]} = errors_on(changeset)
-      assert %{name: ["can't be blank"]} = errors_on(changeset)
-      assert %{password: ["can't be blank"]} = errors_on(changeset)
+      assert ^required_fields = changeset_required_fields_error(changeset)
     end
 
     test "validate name length" do

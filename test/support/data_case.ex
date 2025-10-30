@@ -56,4 +56,11 @@ defmodule Aquamarine.DataCase do
       end)
     end)
   end
+
+  def changeset_required_fields_error(changeset) do
+    changeset
+    |> errors_on()
+    |> Enum.flat_map(fn {k, v} -> if "can't be blank" in v, do: [k], else: [] end)
+    |> Enum.sort()
+  end
 end
