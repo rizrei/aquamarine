@@ -24,6 +24,7 @@ defmodule Aquamarine.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Aquamarine.DataCase
+      import Aquamarine.Factory
     end
   end
 
