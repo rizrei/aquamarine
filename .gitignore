@@ -40,3 +40,4 @@ aquamarine.code-workspace
 .DS_Store
 /.DS_Store
 /cover
+.env

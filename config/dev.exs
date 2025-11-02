@@ -2,11 +2,11 @@ import Config
 
 # Configure your database
 config :aquamarine, Aquamarine.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "aquamarine_dev",
-  port: "54320",
+  username: System.get_env("DB_USERNAME", "postgres"),
+  password: System.get_env("DB_PASSWORD", "postgres"),
+  hostname: System.get_env("DB_HOST", "localhost"),
+  database: System.get_env("DB_NAME", "aquamarine_dev"),
+  port: System.get_env("DB_PORT") || "5432",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
