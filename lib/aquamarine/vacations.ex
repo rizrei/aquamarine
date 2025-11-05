@@ -15,16 +15,12 @@ defmodule Aquamarine.Vacations do
 
   Raises `Ecto.NoResultsError` if no place was found.
   """
-  def get_place_by_slug!(slug) do
-    Repo.get_by!(Place, slug: slug)
-  end
+  def get_place_by_slug!(slug), do: Repo.get_by!(Place, slug: slug)
 
   @doc """
   Returns a list of all places.
   """
-  def list_places do
-    Repo.all(Place)
-  end
+  def list_places, do: Repo.all(Place)
 
   @doc """
   Returns a list of places matching the given `criteria`.
@@ -101,9 +97,7 @@ defmodule Aquamarine.Vacations do
 
   Raises `Ecto.NoResultsError` if no booking was found.
   """
-  def get_booking!(id) do
-    Repo.get!(Booking, id)
-  end
+  def get_booking!(id), do: Repo.get!(Booking, id)
 
   @doc """
   Creates a booking for the given user.

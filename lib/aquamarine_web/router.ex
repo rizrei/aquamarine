@@ -14,8 +14,16 @@ defmodule AquamarineWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", AquamarineWeb do
-    pipe_through :browser
+  scope "/" do
+    pipe_through :api
+
+    forward "/api", Absinthe.Plug.GraphiQL, schema: AquamarineWeb.GraphQL.Schema
+
+    # internal interface for testing
+    # {:absinthe_plug, "~> 1.5"}
+    # forward "/graphiql", Absinthe.Plug.GraphiQL,
+    #   schema: AquamarineWeb.Schema,
+    #   interface: :simple
   end
 
   # Other scopes may use custom stacks.
