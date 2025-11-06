@@ -4,6 +4,23 @@ defmodule Aquamarine.Vacations.Booking do
   import Ecto.Changeset
   import Aquamarine.Vacations.Validators.BookingValidator
 
+  alias Aquamarine.Vacations.{User, Place}
+
+  @type t :: %__MODULE__{
+          id: Ecto.UUID.t() | nil,
+          period: EctoRange.Date.t() | nil,
+          start_date: Date.t() | nil,
+          end_date: Date.t() | nil,
+          state: :reserved | :canceled,
+          total_price: Decimal.t() | nil,
+          place_id: Ecto.UUID.t() | nil,
+          place: Place.t() | Ecto.Association.NotLoaded.t(),
+          user_id: Ecto.UUID.t() | nil,
+          user: User.t() | Ecto.Association.NotLoaded.t(),
+          inserted_at: NaiveDateTime.t() | nil,
+          updated_at: NaiveDateTime.t() | nil
+        }
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "bookings" do
@@ -13,8 +30,8 @@ defmodule Aquamarine.Vacations.Booking do
     field :state, Ecto.Enum, values: [:reserved, :canceled], default: :reserved
     field :total_price, :decimal
 
-    belongs_to :place, Aquamarine.Vacations.Place
-    belongs_to :user, Aquamarine.Accounts.User
+    belongs_to :place, Place
+    belongs_to :user, User
 
     timestamps(type: :utc_datetime)
   end

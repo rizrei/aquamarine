@@ -3,14 +3,29 @@ defmodule Aquamarine.Vacations.Review do
 
   import Ecto.Changeset
 
+  alias Aquamarine.Vacations.Place
+  alias Aquamarine.Vacations.User
+
+  @type t :: %__MODULE__{
+          id: Ecto.UUID.t() | nil,
+          rating: integer() | nil,
+          comment: String.t() | nil,
+          place_id: Ecto.UUID.t() | nil,
+          place: Place.t() | Ecto.Association.NotLoaded.t(),
+          user_id: Ecto.UUID.t() | nil,
+          user: User.t() | Ecto.Association.NotLoaded.t(),
+          inserted_at: NaiveDateTime.t() | nil,
+          updated_at: NaiveDateTime.t() | nil
+        }
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "reviews" do
     field :rating, :integer
     field :comment, :string
 
-    belongs_to :place, Aquamarine.Vacations.Place
-    belongs_to :user, Aquamarine.Accounts.User
+    belongs_to :place, Place
+    belongs_to :user, User
 
     timestamps(type: :utc_datetime)
   end
