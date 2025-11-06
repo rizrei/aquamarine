@@ -1,7 +1,7 @@
 defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
   use Absinthe.Schema.Notation
 
-  # alias AquamarineWeb.GraphQl.Resolvers.Vacations
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   object :booking do
     field :id, non_null(:id)
@@ -9,6 +9,9 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     field :start_date, non_null(:date), resolve: &resolve_start_date/3
     field :end_date, non_null(:date), resolve: &resolve_end_date/3
     field :total_price, non_null(:decimal)
+
+    field :user, non_null(:user), resolve: dataloader(Aquamarine.Vacations)
+    field :place, non_null(:place), resolve: dataloader(Aquamarine.Vacations)
   end
 
   def resolve_start_date(%{period: %Postgrex.Range{lower: lower}}, _, _), do: {:ok, lower}

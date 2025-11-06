@@ -5,6 +5,7 @@ defmodule AquamarineWeb.GraphQL.Schema do
   import_types(AquamarineWeb.GraphQL.Schema.PlaceTypes)
   import_types(AquamarineWeb.GraphQL.Schema.BookingTypes)
   import_types(AquamarineWeb.GraphQl.Schema.ReviewTypes)
+  import_types(AquamarineWeb.GraphQl.Schema.UserTypes)
   import_types(AquamarineWeb.GraphQL.Schema.SortingOrderTypes)
 
   query do
