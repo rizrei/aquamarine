@@ -4,7 +4,7 @@ defmodule Aquamarine.Vacations.Review do
   import Ecto.Changeset
 
   alias Aquamarine.Vacations.Place
-  alias Aquamarine.Vacations.User
+  alias Aquamarine.Accounts.User
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t() | nil,

@@ -26,7 +26,7 @@ defmodule Aquamarine.Vacations.Queries.Places.Params do
   def changeset(%__MODULE__{} = schema, attrs \\ %{}) do
     schema
     |> cast(attrs, [:limit])
-    |> validate_number(:limit, greater_than: 1)
+    |> validate_number(:limit, greater_than_or_equal_to: 1)
     |> cast_embed(:order_by, with: &OrderBy.changeset/2)
     |> cast_embed(:filter, with: &Filter.changeset/2)
   end

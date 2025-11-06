@@ -22,13 +22,13 @@ defmodule Aquamarine.Vacations.Queries.Places do
         with_search(query, term)
 
       {:pet_friendly, pet_friendly}, query ->
-        where(query, :pet_friendly, ^pet_friendly)
+        where(query, pet_friendly: ^pet_friendly)
 
       {:pool, pool}, query ->
-        where(query, :pool, ^pool)
+        where(query, pool: ^pool)
 
       {:wifi, wifi}, query ->
-        where(query, :wifi, ^wifi)
+        where(query, wifi: ^wifi)
 
       {:guest_count, guest_count}, query ->
         where(query, [q], q.max_guests >= ^guest_count)

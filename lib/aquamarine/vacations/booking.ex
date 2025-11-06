@@ -4,11 +4,12 @@ defmodule Aquamarine.Vacations.Booking do
   import Ecto.Changeset
   import Aquamarine.Vacations.Validators.BookingValidator
 
-  alias Aquamarine.Vacations.{User, Place}
+  alias Aquamarine.Accounts.User
+  alias Aquamarine.Vacations.Place
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t() | nil,
-          period: EctoRange.Date.t() | nil,
+          period: Date.Range.t() | Postgrex.Range.t() | nil,
           start_date: Date.t() | nil,
           end_date: Date.t() | nil,
           state: :reserved | :canceled,
