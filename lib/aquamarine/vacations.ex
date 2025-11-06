@@ -4,11 +4,12 @@ defmodule Aquamarine.Vacations do
   and reviewing vacation places.
   """
 
-  import Ecto.Query, warn: false
+  import Ecto.Query
   alias Aquamarine.Repo
 
   alias Aquamarine.Vacations.{Place, Booking, Review}
   alias Aquamarine.Accounts.User
+  alias Aquamarine.Queries.Places.PlacesFilter
 
   @doc """
   Returns the place with the given `slug`.
@@ -16,6 +17,7 @@ defmodule Aquamarine.Vacations do
   Raises `Ecto.NoResultsError` if no place was found.
   """
   def get_place_by_slug!(slug), do: Repo.get_by!(Place, slug: slug)
+  def get_place!(id), do: Repo.get!(Place, id)
 
   @doc """
   Returns a list of all places.
@@ -26,71 +28,20 @@ defmodule Aquamarine.Vacations do
   Returns a list of places matching the given `criteria`.
 
   Example Criteria:
-
-  [{:limit, 15}, {:order, :asc}, {:filter, [{:matching, "lake"}, {:wifi, true}, {:guest_count, 3}]}]
+  %{
+    filter: %{
+      pool: true,
+      search: "Starry Yurt",
+      available_between: %{end_date: ~D[2025-09-09], start_date: ~D[2025-09-08]},
+      guest_count: 1,
+      wifi: true
+    },
+    limit: 5,
+    order_by: %{name: :asc, max_guests: :desc}
+  }
   """
 
-  def list_places(criteria) do
-    query = from(p in Place)
-
-    Enum.reduce(criteria, query, fn
-      {:limit, limit}, query ->
-        from p in query, limit: ^limit
-
-      {:filter, filters}, query ->
-        filter_with(filters, query)
-
-      {:order, order}, query ->
-        from p in query, order_by: [{^order, :id}]
-    end)
-    |> Repo.all()
-  end
-
-  defp filter_with(filters, query) do
-    Enum.reduce(filters, query, fn
-      {:matching, term}, query ->
-        pattern = "%#{term}%"
-
-        from q in query,
-          where:
-            ilike(q.name, ^pattern) or
-              ilike(q.description, ^pattern) or
-              ilike(q.location, ^pattern)
-
-      {:pet_friendly, value}, query ->
-        from q in query, where: q.pet_friendly == ^value
-
-      {:pool, value}, query ->
-        from q in query, where: q.pool == ^value
-
-      {:wifi, value}, query ->
-        from q in query, where: q.wifi == ^value
-
-      {:guest_count, count}, query ->
-        from q in query, where: q.max_guests >= ^count
-
-      {:available_between, %{start_date: start_date, end_date: end_date}}, query ->
-        available_between(query, start_date, end_date)
-    end)
-  end
-
-  # Returns a query for places available between the given
-  # start_date and end_date using the Postgres-specific
-  # OVERLAPS function.
-  defp available_between(query, start_date, end_date) do
-    from place in query,
-      left_join: booking in Booking,
-      on:
-        booking.place_id == place.id and
-          fragment(
-            "(?, ?) OVERLAPS (?, ? + INTERVAL '1' DAY)",
-            booking.start_date,
-            booking.end_date,
-            type(^start_date, :date),
-            type(^end_date, :date)
-          ),
-      where: is_nil(booking.place_id)
-  end
+  def list_places(filter), do: PlacesFilter.call(filter)
 
   @doc """
   Returns the booking with the given `id`.

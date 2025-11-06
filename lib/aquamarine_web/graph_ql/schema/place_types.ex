@@ -16,4 +16,37 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     field :image, non_null(:string)
     field :image_thumbnail, non_null(:string)
   end
+
+  @desc "Filters for the list of places"
+  input_object :place_filter do
+    @desc "Search by name, location, or description"
+    field :search, :string
+
+    @desc "Has wifi"
+    field :wifi, :boolean
+
+    @desc "Allows pets"
+    field :pet_friendly, :boolean
+
+    @desc "Has a pool"
+    field :pool, :boolean
+
+    @desc "Number of guests"
+    field :guest_count, :integer
+
+    @desc "Available for booking between a start and end date"
+    field :available_between, :date_range
+  end
+
+  @desc "Place Order"
+  input_object :place_order do
+    field :name, :sorting_order
+    field :max_guests, :sorting_order
+  end
+
+  @desc "Start and end dates"
+  input_object :date_range do
+    field :start_date, non_null(:date)
+    field :end_date, non_null(:date)
+  end
 end
