@@ -18,6 +18,6 @@ defmodule AquamarineWeb.GraphQl.Resolvers.Vacations do
   end
 
   def places(_, params, _) do
-    {:ok, Vacations.list_places(params)}
+    Aquamarine.Vacations.Places.list_places(params)
   end
 end

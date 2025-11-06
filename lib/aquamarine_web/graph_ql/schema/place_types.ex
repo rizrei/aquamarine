@@ -1,5 +1,8 @@
 defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
   use Absinthe.Schema.Notation
+
+  alias AquamarineWeb.GraphQl.Resolvers.Vacations
+
   import_types(Absinthe.Type.Custom)
 
   object :place do
@@ -15,6 +18,25 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     field :price_per_night, non_null(:decimal)
     field :image, non_null(:string)
     field :image_thumbnail, non_null(:string)
+  end
+
+  object :place_queries do
+    @desc "Get a place by id or slug"
+    field :place, :place do
+      arg(:slug, :string)
+      arg(:id, :id)
+
+      resolve(&Vacations.place/3)
+    end
+
+    @desc "Get a list of places"
+    field :places, list_of(:place) do
+      arg(:limit, :integer)
+      arg(:order_by, :place_order)
+      arg(:filter, :place_filter)
+
+      resolve(&Vacations.places/3)
+    end
   end
 
   @desc "Filters for the list of places"

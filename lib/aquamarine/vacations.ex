@@ -9,7 +9,6 @@ defmodule Aquamarine.Vacations do
 
   alias Aquamarine.Vacations.{Place, Booking, Review}
   alias Aquamarine.Accounts.User
-  alias Aquamarine.Queries.Places.PlacesFilter
 
   @doc """
   Returns the place with the given `slug`.
@@ -23,25 +22,6 @@ defmodule Aquamarine.Vacations do
   Returns a list of all places.
   """
   def list_places, do: Repo.all(Place)
-
-  @doc """
-  Returns a list of places matching the given `criteria`.
-
-  Example Criteria:
-  %{
-    filter: %{
-      pool: true,
-      search: "Starry Yurt",
-      available_between: %{end_date: ~D[2025-09-09], start_date: ~D[2025-09-08]},
-      guest_count: 1,
-      wifi: true
-    },
-    limit: 5,
-    order_by: %{name: :asc, max_guests: :desc}
-  }
-  """
-
-  def list_places(filter), do: PlacesFilter.call(filter)
 
   @doc """
   Returns the booking with the given `id`.
