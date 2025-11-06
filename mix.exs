@@ -78,12 +78,15 @@ defmodule Aquamarine.MixProject do
       {:ecto_range, "~> 0.3.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:faker, "~> 0.19.0-alpha.1", only: [:dev, :test]},
-      {:ex_machina, "~> 2.8.0", only: :test},
-      {:excoveralls, "~> 0.18", only: :test},
+      # GraphQL
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
-      {:absinthe_phoenix, "~> 2.0.0"}
+      {:absinthe_phoenix, "~> 2.0.0"},
+      {:dataloader, "~> 2.0.0"},
+      # Tests
+      {:faker, "~> 0.19.0-alpha.1", only: [:dev, :test]},
+      {:ex_machina, "~> 2.8.0", only: :test},
+      {:excoveralls, "~> 0.18", only: :test}
     ]
   end
 

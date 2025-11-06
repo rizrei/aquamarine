@@ -1,6 +1,8 @@
 defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
   use Absinthe.Schema.Notation
 
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
   alias AquamarineWeb.GraphQl.Resolvers.Vacations
 
   object :place do
@@ -17,7 +19,8 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     field :image, non_null(:string)
     field :image_thumbnail, non_null(:string)
 
-    field :bookings, list_of(:booking), resolve: &Vacations.bookings_for_place/3
+    field :bookings, list_of(:booking), resolve: dataloader(Aquamarine.Vacations)
+    field :reviews, list_of(:review), resolve: dataloader(Aquamarine.Vacations)
   end
 
   object :place_queries do

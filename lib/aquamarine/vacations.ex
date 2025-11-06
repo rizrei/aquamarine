@@ -40,13 +40,6 @@ defmodule Aquamarine.Vacations do
     |> Repo.insert()
   end
 
-  def bookings_for_place(%Place{id: id}) do
-    Booking
-    |> where(place_id: ^id)
-    |> where(state: :reserved)
-    |> Repo.all()
-  end
-
   @doc """
   Cancels the given booking.
   """
@@ -68,23 +61,23 @@ defmodule Aquamarine.Vacations do
 
   # Dataloader
 
-  def datasource() do
-    Dataloader.Ecto.new(Repo, query: &query/2)
-  end
+  # def datasource() do
+  #   Dataloader.Ecto.new(Repo, query: &query/2)
+  # end
 
-  def query(Booking, %{scope: :place, limit: limit}) do
-    Booking
-    |> where(state: "reserved")
-    |> order_by(desc: :start_date)
-    |> limit(^limit)
-  end
+  # def query(Booking, %{scope: :place, limit: limit}) do
+  #   Booking
+  #   |> where(state: "reserved")
+  #   |> order_by(desc: :start_date)
+  #   |> limit(^limit)
+  # end
 
-  def query(Booking, %{scope: :user}) do
-    Booking
-    |> order_by(asc: :start_date)
-  end
+  # def query(Booking, %{scope: :user}) do
+  #   Booking
+  #   |> order_by(asc: :start_date)
+  # end
 
-  def query(queryable, _) do
-    queryable
-  end
+  # def query(queryable, _) do
+  #   queryable
+  # end
 end
