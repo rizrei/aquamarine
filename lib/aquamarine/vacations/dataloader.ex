@@ -9,7 +9,7 @@ defmodule Aquamarine.Vacations.Dataloader do
     Dataloader.Ecto.new(Repo, query: &query/2)
   end
 
-  def query(Booking, %{scope: :place, limit: limit} = args) do
+  def query(Booking, %{scope: :place, limit: limit}) do
     Booking
     |> where(state: :reserved)
     |> order_by([b], desc: fragment("lower(?)", b.period))

@@ -16,7 +16,9 @@ defmodule Aquamarine.Vacations do
   Raises `Ecto.NoResultsError` if no place was found.
   """
   def get_place_by_slug!(slug), do: Repo.get_by!(Place, slug: slug)
+  def get_place_by_slug(slug), do: Repo.get_by(Place, slug: slug)
   def get_place!(id), do: Repo.get!(Place, id)
+  def get_place(id), do: Repo.get(Place, id)
 
   @doc """
   Returns a list of all places.
