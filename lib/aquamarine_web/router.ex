@@ -17,7 +17,7 @@ defmodule AquamarineWeb.Router do
   scope "/" do
     pipe_through :api
 
-    forward "/api", Absinthe.Plug.GraphiQL, schema: AquamarineWeb.GraphQL.Schema
+    forward "/graphql", Absinthe.Plug.GraphiQL, schema: AquamarineWeb.GraphQL.Schema
 
     # internal interface for testing
     # {:absinthe_plug, "~> 1.5"}
