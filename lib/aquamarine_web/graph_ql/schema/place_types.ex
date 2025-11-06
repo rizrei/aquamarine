@@ -3,8 +3,6 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
 
   alias AquamarineWeb.GraphQl.Resolvers.Vacations
 
-  import_types(Absinthe.Type.Custom)
-
   object :place do
     field :id, non_null(:id)
     field :name, non_null(:string)
@@ -18,6 +16,8 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     field :price_per_night, non_null(:decimal)
     field :image, non_null(:string)
     field :image_thumbnail, non_null(:string)
+
+    field :bookings, list_of(:booking), resolve: &Vacations.bookings_for_place/3
   end
 
   object :place_queries do

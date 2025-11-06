@@ -40,6 +40,13 @@ defmodule Aquamarine.Vacations do
     |> Repo.insert()
   end
 
+  def bookings_for_place(%Place{id: id}) do
+    Booking
+    |> where(place_id: ^id)
+    |> where(state: :reserved)
+    |> Repo.all()
+  end
+
   @doc """
   Cancels the given booking.
   """
