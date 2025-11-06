@@ -1,14 +1,16 @@
 defmodule AquamarineWeb.GraphQl.Schema.UserTypes do
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
   object :user do
     field :id, non_null(:id)
     field :name, non_null(:string)
     field :email, non_null(:string)
 
-    field :bookings, list_of(:booking), resolve: dataloader(Aquamarine.Vacations)
+    field :bookings, list_of(:booking),
+      resolve: dataloader(Aquamarine.Vacations, :bookings, args: %{scope: :user})
+
     field :reviews, list_of(:review), resolve: dataloader(Aquamarine.Vacations)
   end
 end

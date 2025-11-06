@@ -1,7 +1,7 @@
 defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
   object :booking do
     field :id, non_null(:id)
@@ -10,7 +10,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     field :end_date, non_null(:date), resolve: &resolve_end_date/3
     field :total_price, non_null(:decimal)
 
-    field :user, non_null(:user), resolve: dataloader(Aquamarine.Vacations)
+    field :user, non_null(:user), resolve: dataloader(Aquamarine.Accounts)
     field :place, non_null(:place), resolve: dataloader(Aquamarine.Vacations)
   end
 

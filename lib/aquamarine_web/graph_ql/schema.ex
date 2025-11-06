@@ -1,6 +1,11 @@
 defmodule AquamarineWeb.GraphQL.Schema do
   use Absinthe.Schema
 
+  alias Aquamarine.Vacations
+  alias Aquamarine.Accounts
+  alias Aquamarine.Vacations.Dataloader, as: VacationsDataloader
+  alias Aquamarine.Accounts.Dataloader, as: AccountsDataloader
+
   import_types(Absinthe.Type.Custom)
   import_types(AquamarineWeb.GraphQL.Schema.PlaceTypes)
   import_types(AquamarineWeb.GraphQL.Schema.BookingTypes)
@@ -13,11 +18,10 @@ defmodule AquamarineWeb.GraphQL.Schema do
   end
 
   def context(ctx) do
-    source = Dataloader.Ecto.new(Aquamarine.Repo)
-
     loader =
       Dataloader.new()
-      |> Dataloader.add_source(Aquamarine.Vacations, source)
+      |> Dataloader.add_source(Vacations, VacationsDataloader.datasource())
+      |> Dataloader.add_source(Accounts, AccountsDataloader.datasource())
 
     Map.put(ctx, :loader, loader)
   end
