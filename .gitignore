@@ -40,4 +40,5 @@ aquamarine.code-workspace
 .DS_Store
 /.DS_Store
 /cover
+.elixir_ls
 .env

@@ -4,6 +4,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
   alias AquamarineWeb.GraphQl.Resolvers.Vacations.Places
+  alias AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug
 
   object :place do
     field :id, non_null(:id)
@@ -33,6 +34,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
       arg(:slug, :string)
       arg(:id, :id)
 
+      middleware(RequireIdOrSlug)
       resolve(&Places.place/3)
     end
 

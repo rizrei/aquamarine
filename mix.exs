@@ -78,6 +78,8 @@ defmodule Aquamarine.MixProject do
       {:ecto_range, "~> 0.3.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      # Authorization
+      {:bodyguard, "~> 2.4"},
       # GraphQL
       {:absinthe, "~> 1.8"},
       {:absinthe_plug, "~> 1.5"},

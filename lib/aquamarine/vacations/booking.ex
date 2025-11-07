@@ -53,9 +53,9 @@ defmodule Aquamarine.Vacations.Booking do
     |> put_total_price()
   end
 
-  def cancel_changeset(booking, attrs) do
+  def cancel_changeset(booking) do
     booking
-    |> cast(attrs, [:state])
-    |> validate_required([:state])
+    |> change()
+    |> put_change(:state, :canceled)
   end
 end
