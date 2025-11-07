@@ -17,14 +17,21 @@ defmodule AquamarineWeb.GraphQL.Schema do
     import_fields(:place_queries)
   end
 
-  def context(ctx) do
-    loader =
-      Dataloader.new()
-      |> Dataloader.add_source(Vacations, VacationsDataloader.datasource())
-      |> Dataloader.add_source(Accounts, AccountsDataloader.datasource())
+  mutation do
+    import_fields(:booking_mutations)
+  end
 
-    Map.put(ctx, :loader, loader)
+  def context(ctx) do
+    ctx
+    |> Map.put(:loader, build_loader())
+    |> Map.put(:current_user, Accounts.get_user_by_email("alice@mail.com"))
   end
 
   def plugins, do: [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+
+  defp build_loader do
+    Dataloader.new()
+    |> Dataloader.add_source(Vacations, VacationsDataloader.datasource())
+    |> Dataloader.add_source(Accounts, AccountsDataloader.datasource())
+  end
 end

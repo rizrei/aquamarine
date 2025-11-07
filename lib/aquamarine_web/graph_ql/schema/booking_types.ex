@@ -1,7 +1,9 @@
 defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
   use Absinthe.Schema.Notation
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+
+  alias AquamarineWeb.GraphQl.Resolvers.Vacations.Bookings
 
   object :booking do
     field :id, non_null(:id)
@@ -12,6 +14,24 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
 
     field :user, non_null(:user), resolve: dataloader(Aquamarine.Accounts)
     field :place, non_null(:place), resolve: dataloader(Aquamarine.Vacations)
+  end
+
+  object :booking_mutations do
+    @desc "Create booking for place"
+    field :create_booking, :booking do
+      arg(:place_id, non_null(:id))
+      arg(:start_date, non_null(:date))
+      arg(:end_date, non_null(:date))
+
+      resolve(&Bookings.create_booking/3)
+    end
+
+    @desc "Cancel booking by id"
+    field :cancel_booking, :booking do
+      arg(:booking_id, non_null(:id))
+
+      resolve(&Bookings.cancel_booking/3)
+    end
   end
 
   def resolve_start_date(%{period: %Postgrex.Range{lower: lower}}, _, _), do: {:ok, lower}

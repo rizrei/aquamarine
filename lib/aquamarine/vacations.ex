@@ -4,37 +4,10 @@ defmodule Aquamarine.Vacations do
   and reviewing vacation places.
   """
 
-  import Ecto.Query
   alias Aquamarine.Repo
 
-  alias Aquamarine.Vacations.{Booking, Review}
+  alias Aquamarine.Vacations.Review
   alias Aquamarine.Accounts.User
-
-  @doc """
-  Returns the booking with the given `id`.
-
-  Raises `Ecto.NoResultsError` if no booking was found.
-  """
-  def get_booking!(id), do: Repo.get!(Booking, id)
-
-  @doc """
-  Creates a booking for the given user.
-  """
-  def create_booking(%User{} = user, attrs) do
-    %Booking{}
-    |> Booking.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:user, user)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Cancels the given booking.
-  """
-  def cancel_booking(%Booking{} = booking) do
-    booking
-    |> Booking.cancel_changeset(%{state: "canceled"})
-    |> Repo.update()
-  end
 
   @doc """
   Creates a review for the given user.
