@@ -41,23 +41,21 @@ defmodule Aquamarine.Vacations.PlacesTest do
     end
 
     test "returns all places by default" do
-      places = [insert(:place)]
-      {:ok, result} = Places.list_places(%{})
+      place = insert(:place)
 
-      assert length(places) == length(result)
+      assert [^place] = Places.list_places(%{})
     end
 
     test "returns limited number of places" do
-      insert(:place)
-      {:ok, results} = Places.list_places(%{limit: 1})
+      place = insert(:place)
 
-      assert length(results) == 1
+      assert [^place] = Places.list_places(%{limit: 1})
     end
 
     test "returns limited and ordered places" do
       ["Place 3", "Place 1", "Place 2"] |> Enum.each(fn name -> insert(:place, name: name) end)
 
-      {:ok, results} = Places.list_places(%{limit: 3, order_by: %{name: :desc}})
+      results = Places.list_places(%{limit: 3, order_by: %{name: :desc}})
 
       assert Enum.map(results, & &1.name) == ["Place 3", "Place 2", "Place 1"]
     end
@@ -66,35 +64,35 @@ defmodule Aquamarine.Vacations.PlacesTest do
       place = insert(:place, name: "FooBar")
       insert(:place, name: "BarBaz")
 
-      assert {:ok, [^place]} = Places.list_places(%{filter: %{search: "Foo"}})
+      assert [^place] = Places.list_places(%{filter: %{search: "Foo"}})
     end
 
     test "returns places filtered by pet friendly" do
       place = insert(:place, pet_friendly: true)
       insert(:place, pet_friendly: false)
 
-      assert {:ok, [^place]} = Places.list_places(%{filter: %{pet_friendly: true}})
+      assert [^place] = Places.list_places(%{filter: %{pet_friendly: true}})
     end
 
     test "returns places filtered by pool" do
       place = insert(:place, pool: true)
       insert(:place, pool: false)
 
-      assert {:ok, [^place]} = Places.list_places(%{filter: %{pool: true}})
+      assert [^place] = Places.list_places(%{filter: %{pool: true}})
     end
 
     test "returns places filtered by wifi" do
       place = insert(:place, wifi: true)
       insert(:place, wifi: false)
 
-      assert {:ok, [^place]} = Places.list_places(%{filter: %{wifi: true}})
+      assert [^place] = Places.list_places(%{filter: %{wifi: true}})
     end
 
     test "returns places filtered by guest count" do
       place = insert(:place, max_guests: 3)
       insert(:place, max_guests: 2)
 
-      assert {:ok, [^place]} = Places.list_places(%{filter: %{guest_count: 3}})
+      assert [^place] = Places.list_places(%{filter: %{guest_count: 3}})
     end
 
     test "returns places available between dates" do
@@ -111,43 +109,43 @@ defmodule Aquamarine.Vacations.PlacesTest do
 
       # Case 1
       # --------[---------]-------
-      assert {:ok, []} = places_available_between(~D[2025-01-05], ~D[2025-01-10])
+      assert [] = places_available_between(~D[2025-01-05], ~D[2025-01-10])
 
       # Case 2
       # --------[----]------------
-      assert {:ok, []} = places_available_between(~D[2025-01-05], ~D[2025-01-08])
+      assert [] = places_available_between(~D[2025-01-05], ~D[2025-01-08])
 
       # Case 3
       # -------------[----]-------
-      assert {:ok, []} = places_available_between(~D[2025-01-08], ~D[2025-01-10])
+      assert [] = places_available_between(~D[2025-01-08], ~D[2025-01-10])
 
       # Case 4
       # [-----]-------------------
-      assert {:ok, [^place]} = places_available_between(~D[2025-01-01], ~D[2025-01-04])
+      assert [^place] = places_available_between(~D[2025-01-01], ~D[2025-01-04])
 
       # Case 5
       # --------------------[----]
-      assert {:ok, [^place]} = places_available_between(~D[2025-01-11], ~D[2025-01-12])
+      assert [^place] = places_available_between(~D[2025-01-11], ~D[2025-01-12])
 
       # Case 6
       # -----[----]---------------
-      assert {:ok, []} = places_available_between(~D[2025-01-04], ~D[2025-01-05])
+      assert [] = places_available_between(~D[2025-01-04], ~D[2025-01-05])
 
       # Case 7
       # -----------[---]----------
-      assert {:ok, []} = places_available_between(~D[2025-01-07], ~D[2025-01-08])
+      assert [] = places_available_between(~D[2025-01-07], ~D[2025-01-08])
 
       # Case 8
       # ------[-------]-----------
-      assert {:ok, []} = places_available_between(~D[2025-01-04], ~D[2025-01-08])
+      assert [] = places_available_between(~D[2025-01-04], ~D[2025-01-08])
 
       # Case 9
       # --------------[--------]--
-      assert {:ok, []} = places_available_between(~D[2025-01-08], ~D[2025-01-12])
+      assert [] = places_available_between(~D[2025-01-08], ~D[2025-01-12])
 
       # Case 10
       # -----[----------------]---
-      assert {:ok, []} = places_available_between(~D[2025-01-03], ~D[2025-01-12])
+      assert [] = places_available_between(~D[2025-01-03], ~D[2025-01-12])
     end
   end
 end

@@ -77,10 +77,10 @@ defmodule Aquamarine.Vacations.Places do
 
   """
 
-  @spec list_places(map()) :: {:ok, [Place.t()]} | {:error, Ecto.Changeset.t()}
+  @spec list_places(map()) :: [Place.t()] | {:error, Ecto.Changeset.t()}
   def list_places(params) do
     with {:ok, result} <- Params.validate(params) do
-      {:ok, ListPlaces.call(result)}
+      ListPlaces.call(result)
     end
   end
 end
