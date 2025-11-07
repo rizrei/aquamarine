@@ -7,23 +7,8 @@ defmodule Aquamarine.Vacations do
   import Ecto.Query
   alias Aquamarine.Repo
 
-  alias Aquamarine.Vacations.{Place, Booking, Review}
+  alias Aquamarine.Vacations.{Booking, Review}
   alias Aquamarine.Accounts.User
-
-  @doc """
-  Returns the place with the given `slug`.
-
-  Raises `Ecto.NoResultsError` if no place was found.
-  """
-  def get_place_by_slug!(slug), do: Repo.get_by!(Place, slug: slug)
-  def get_place_by_slug(slug), do: Repo.get_by(Place, slug: slug)
-  def get_place!(id), do: Repo.get!(Place, id)
-  def get_place(id), do: Repo.get(Place, id)
-
-  @doc """
-  Returns a list of all places.
-  """
-  def list_places, do: Repo.all(Place)
 
   @doc """
   Returns the booking with the given `id`.

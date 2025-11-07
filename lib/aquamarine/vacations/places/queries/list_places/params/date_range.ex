@@ -1,7 +1,21 @@
 defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params.DateRange do
-  use Ecto.Schema
+  @moduledoc """
+  Represents a date range for availability filtering.
+  """
 
+  use Ecto.Schema
   import Ecto.Changeset
+
+  @typedoc """
+  Struct containing a date range.
+
+    * `start_date` — start of range (inclusive)
+    * `end_date` — end of range (inclusive)
+  """
+  @type t :: %__MODULE__{
+          start_date: Date.t(),
+          end_date: Date.t()
+        }
 
   @primary_key false
   embedded_schema do
@@ -9,6 +23,7 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params.DateRange do
     field :end_date, :date
   end
 
+  @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = schema, attrs \\ %{}) do
     schema
     |> cast(attrs, [:start_date, :end_date])

@@ -3,7 +3,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
-  alias AquamarineWeb.GraphQl.Resolvers.Vacations
+  alias AquamarineWeb.GraphQl.Resolvers.Vacations.Places
 
   object :place do
     field :id, non_null(:id)
@@ -33,7 +33,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
       arg(:slug, :string)
       arg(:id, :id)
 
-      resolve(&Vacations.place/3)
+      resolve(&Places.place/3)
     end
 
     @desc "Get a list of places"
@@ -42,7 +42,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
       arg(:order_by, :place_order)
       arg(:filter, :place_filter)
 
-      resolve(&Vacations.places/3)
+      resolve(&Places.places/3)
     end
   end
 

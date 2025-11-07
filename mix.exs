@@ -79,7 +79,7 @@ defmodule Aquamarine.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       # GraphQL
-      {:absinthe, "~> 1.7"},
+      {:absinthe, "~> 1.8"},
       {:absinthe_plug, "~> 1.5"},
       {:absinthe_phoenix, "~> 2.0.0"},
       {:dataloader, "~> 2.0.0"},
