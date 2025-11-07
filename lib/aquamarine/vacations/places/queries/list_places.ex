@@ -1,4 +1,4 @@
-defmodule Aquamarine.Vacations.Queries.Places do
+defmodule Aquamarine.Vacations.Places.Queries.ListPlaces do
   @moduledoc """
   A query module for filtering Places based on parameters.
   """
@@ -8,7 +8,7 @@ defmodule Aquamarine.Vacations.Queries.Places do
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.{Place, Booking}
 
-  def list_places(params) do
+  def call(params) do
     Place
     |> with_filter(params)
     |> with_order(params)

@@ -1,4 +1,4 @@
-defmodule Aquamarine.Vacations.Queries.Places.Params.DateRange do
+defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params.DateRange do
   use Ecto.Schema
 
   import Ecto.Changeset

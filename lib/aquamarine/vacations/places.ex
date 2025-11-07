@@ -1,7 +1,7 @@
 defmodule Aquamarine.Vacations.Places do
   alias Aquamarine.Vacations.Place
-  alias Aquamarine.Vacations.Queries.Places
-  alias Aquamarine.Vacations.Queries.Places.Params
+  alias Aquamarine.Vacations.Places.Queries.ListPlaces
+  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params
 
   @doc """
   Returns a list of places matching the given `criteria`.
@@ -23,7 +23,7 @@ defmodule Aquamarine.Vacations.Places do
   @spec list_places(map()) :: {:ok, [Place.t()]} | {:error, Ecto.Changeset.t()}
   def list_places(params) do
     with {:ok, result} <- Params.validate(params) do
-      {:ok, Places.list_places(result)}
+      {:ok, ListPlaces.call(result)}
     end
   end
 end

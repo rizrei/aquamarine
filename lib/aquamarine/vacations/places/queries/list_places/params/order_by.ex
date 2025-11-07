@@ -1,4 +1,4 @@
-defmodule Aquamarine.Vacations.Queries.Places.Params.OrderBy do
+defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params.OrderBy do
   use Ecto.Schema
 
   import Ecto.Changeset

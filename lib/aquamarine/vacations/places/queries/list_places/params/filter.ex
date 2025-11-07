@@ -1,9 +1,9 @@
-defmodule Aquamarine.Vacations.Queries.Places.Params.Filter do
+defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params.Filter do
   use Ecto.Schema
 
   import Ecto.Changeset
 
-  alias Aquamarine.Vacations.Queries.Places.Params.DateRange
+  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params.DateRange
 
   @primary_key false
   embedded_schema do

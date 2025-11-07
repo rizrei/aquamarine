@@ -1,4 +1,4 @@
-defmodule Aquamarine.Vacations.Queries.Places.Params do
+defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params do
   @moduledoc """
   Validates and normalizes parameters for Places query.
   """
@@ -6,7 +6,7 @@ defmodule Aquamarine.Vacations.Queries.Places.Params do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Aquamarine.Vacations.Queries.Places.Params.{OrderBy, Filter}
+  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params.{OrderBy, Filter}
 
   @primary_key false
   embedded_schema do
