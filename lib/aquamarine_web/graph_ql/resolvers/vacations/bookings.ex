@@ -1,9 +1,20 @@
 defmodule AquamarineWeb.GraphQl.Resolvers.Vacations.Bookings do
+  @moduledoc """
+  GraphQL resolvers for vacation bookings.
+
+  Provides operations for creating and cancelling bookings,
+  """
+
   import AquamarineWeb.GraphQL.Errors
 
-  alias Aquamarine.Vacations.Bookings
-  alias Aquamarine.Vacations.Booking
+  alias Aquamarine.Vacations.{Bookings, Booking}
+  alias Aquamarine.Accounts.User
 
+  @doc """
+  Creates a new booking for the current user.
+  """
+  @spec create_booking(any(), Booking.create_booking_attr(), %{context: %{current_user: User.t()}}) ::
+          {:ok, Booking.t()} | {:error, map()}
   def create_booking(_, params, %{context: %{current_user: user}}) do
     case Bookings.create_booking(user, params) do
       {:ok, booking} -> {:ok, booking}
@@ -11,8 +22,13 @@ defmodule AquamarineWeb.GraphQl.Resolvers.Vacations.Bookings do
     end
   end
 
-  def cancel_booking(_, params, %{context: %{current_user: user}}) do
-    with {:ok, booking} <- get_booking(params),
+  @doc """
+  Cancels an existing booking for the current user.
+  """
+  @spec cancel_booking(any(), %{booking_id: Ecto.UUID.t()}, %{context: %{current_user: User.t()}}) ::
+          {:ok, Booking.t()} | {:error, map()}
+  def cancel_booking(_, %{booking_id: booking_id}, %{context: %{current_user: user}}) do
+    with {:ok, booking} <- Bookings.fetch_booking(booking_id),
          {:ok, upd_booking} <- Bookings.cancel_booking(user, booking) do
       {:ok, upd_booking}
     else
@@ -21,13 +37,4 @@ defmodule AquamarineWeb.GraphQl.Resolvers.Vacations.Bookings do
       {:error, %Ecto.Changeset{} = changeset} -> invalid_changeset_error(changeset)
     end
   end
-
-  defp get_booking(%{booking_id: id}) do
-    case Bookings.get_booking(id) do
-      %Booking{} = booking -> {:ok, booking}
-      _ -> {:error, :not_found}
-    end
-  end
-
-  defp get_booking(_), do: {:error, :not_found}
 end

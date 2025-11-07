@@ -1,9 +1,8 @@
 defmodule Aquamarine.Vacations.Dataloader do
   import Ecto.Query
-  alias Aquamarine.Repo
 
-  alias Aquamarine.Vacations.{Place, Booking, Review}
-  alias Aquamarine.Accounts.User
+  alias Aquamarine.Repo
+  alias Aquamarine.Vacations.Booking
 
   def datasource() do
     Dataloader.Ecto.new(Repo, query: &query/2)

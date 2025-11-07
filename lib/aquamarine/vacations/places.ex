@@ -6,8 +6,6 @@ defmodule Aquamarine.Vacations.Places do
   place or listing a collection of places with filtering, ordering and limits.
   """
 
-  import Ecto.Query
-
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.Place
   alias Aquamarine.Vacations.Places.Queries.ListPlaces

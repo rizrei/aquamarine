@@ -21,9 +21,17 @@ defmodule Aquamarine.Vacations.Validators.BookingValidator do
   end
 
   def put_total_price(%Ecto.Changeset{valid?: true} = changeset) do
-    %Postgrex.Range{lower: lower, upper: upper} = get_field(changeset, :period)
-    %Place{price_per_night: price} = Repo.get(Place, get_field(changeset, :place_id))
-    put_change(changeset, :total_price, Decimal.mult(price, Date.diff(upper, lower)))
+    with %Postgrex.Range{lower: lower, upper: upper} <- get_field(changeset, :period),
+         %Place{price_per_night: price} <- Repo.get(Place, get_field(changeset, :place_id)) do
+      put_change(changeset, :total_price, Decimal.mult(price, Date.diff(upper, lower)))
+    else
+      _ ->
+        add_error(
+          changeset,
+          :total_price,
+          "Cannot calculate total price: invalid period or place"
+        )
+    end
   end
 
   def put_total_price(changeset) do

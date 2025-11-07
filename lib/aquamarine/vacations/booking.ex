@@ -22,6 +22,12 @@ defmodule Aquamarine.Vacations.Booking do
           updated_at: NaiveDateTime.t() | nil
         }
 
+  @type create_booking_attr :: %{
+          start_date: Date.t(),
+          end_date: Date.t(),
+          place_id: Ecto.UUID.t()
+        }
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "bookings" do

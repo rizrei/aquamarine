@@ -9,6 +9,28 @@ defmodule Aquamarine.Vacations.PlacesTest do
     })
   end
 
+  describe "get_place_by_slug/1" do
+    test "returns the place with the given slug" do
+      place = insert(:place)
+      assert ^place = Places.get_place_by_slug(place.slug)
+    end
+
+    test "returns nil if place does not exists" do
+      assert nil == Places.get_place_by_slug("slug")
+    end
+  end
+
+  describe "get_place/1" do
+    test "returns the place with the given id" do
+      place = insert(:place)
+      assert ^place = Places.get_place(place.id)
+    end
+
+    test "returns nil if place does not exists" do
+      assert nil == Places.get_place(Ecto.UUID.generate())
+    end
+  end
+
   describe "list_places/1" do
     test "when limit is 0" do
       {:error, changeset} = Places.list_places(%{limit: 0})
