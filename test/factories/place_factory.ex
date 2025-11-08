@@ -1,4 +1,6 @@
 defmodule Aquamarine.Factories.PlaceFactory do
+  @moduledoc false
+
   defmacro __using__(_opts) do
     quote do
       def place_factory do

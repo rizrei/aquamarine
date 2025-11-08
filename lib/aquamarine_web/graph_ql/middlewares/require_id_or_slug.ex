@@ -1,7 +1,25 @@
 defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug do
+  @moduledoc """
+  Absinthe middleware ensuring that resolver receives *either* `id` or `slug`,
+  but not both and not none.
+
+  Use this middleware on fields where the resolver expects exactly one lookup
+  identifier. If both fields are provided or both omitted, an error is returned.
+
+  ## Example
+
+      field :place, :place do
+        arg :id, :id
+        arg :slug, :string
+        middleware AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug
+        resolve &Resolvers.Vacations.Places.place/3
+      end
+  """
+
   @behaviour Absinthe.Middleware
 
   @impl true
+  @spec call(Absinthe.Resolution.t(), any()) :: Absinthe.Resolution.t()
   def call(%{arguments: %{id: _, slug: _}} = res, _config),
     do: Absinthe.Resolution.put_result(res, error())
 

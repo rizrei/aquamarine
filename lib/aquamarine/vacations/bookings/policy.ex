@@ -1,4 +1,8 @@
 defmodule Aquamarine.Vacations.Bookings.Policy do
+  @moduledoc """
+  Policy for Booking schema
+  """
+
   @behaviour Bodyguard.Policy
 
   alias Aquamarine.Vacations.Booking

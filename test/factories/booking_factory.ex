@@ -1,4 +1,6 @@
 defmodule Aquamarine.Factories.BookingFactory do
+  @moduledoc false
+
   defmacro __using__(_opts) do
     quote do
       def booking_factory do
