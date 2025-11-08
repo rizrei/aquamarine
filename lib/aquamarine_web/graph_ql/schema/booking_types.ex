@@ -28,7 +28,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
 
     @desc "Cancel booking by id"
     field :cancel_booking, :booking do
-      arg(:booking_id, non_null(:id))
+      arg(:id, non_null(:id))
 
       resolve(&Bookings.cancel_booking/3)
     end
