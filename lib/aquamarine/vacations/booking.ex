@@ -2,7 +2,7 @@ defmodule Aquamarine.Vacations.Booking do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Aquamarine.Vacations.Validators.BookingValidator
+  import Aquamarine.Vacations.Bookings.Validations
 
   alias Aquamarine.Accounts.User
   alias Aquamarine.Vacations.Place

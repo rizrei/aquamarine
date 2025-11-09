@@ -28,7 +28,7 @@ defmodule AquamarineWeb.GraphQL.Errors do
   end
 
   @spec record_not_found_error :: {:error, message: String.t()}
-  def record_not_found_error, do: {:error, message: "Booking not found"}
+  def record_not_found_error, do: {:error, message: "Record not found"}
   def record_not_found_error(record_name), do: {:error, message: "#{record_name} not found"}
 
   @spec unauthorized_error :: {:error, message: String.t()}

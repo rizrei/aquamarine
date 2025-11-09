@@ -1,4 +1,5 @@
 {:ok, _} = Application.ensure_all_started(:ex_machina)
+Absinthe.Test.prime(AquamarineWeb.GraphQL.Schema)
 ExUnit.start()
 Faker.start()
 Ecto.Adapters.SQL.Sandbox.mode(Aquamarine.Repo, :manual)

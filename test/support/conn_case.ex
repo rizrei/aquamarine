@@ -28,11 +28,20 @@ defmodule AquamarineWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import AquamarineWeb.ConnCase
+      import Aquamarine.Factory
+
+      def graphql_query(conn, query, variables \\ %{}) do
+        post(conn, "/graphql", %{query: query, variables: variables})
+      end
     end
   end
 
   setup tags do
     Aquamarine.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
+
+  def graphql_error_messages(errors) do
+    Enum.map(errors, fn error -> error["message"] end)
   end
 end

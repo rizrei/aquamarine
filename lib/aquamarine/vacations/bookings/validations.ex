@@ -1,4 +1,4 @@
-defmodule Aquamarine.Vacations.Validators.BookingValidator do
+defmodule Aquamarine.Vacations.Bookings.Validations do
   @moduledoc """
   Booking validator functions.
   """
