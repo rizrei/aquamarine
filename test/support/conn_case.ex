@@ -44,4 +44,8 @@ defmodule AquamarineWeb.ConnCase do
   def graphql_error_messages(errors) do
     Enum.map(errors, fn error -> error["message"] end)
   end
+
+  def graphql_error_details(errors) do
+    Enum.map(errors, fn error -> error["details"] end)
+  end
 end
