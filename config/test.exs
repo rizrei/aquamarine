@@ -10,7 +10,7 @@ config :aquamarine, Aquamarine.Repo,
   password: System.get_env("DB_PASSWORD", "postgres"),
   hostname: System.get_env("DB_HOST", "localhost"),
   database: System.get_env("DB_NAME", "aquamarine_test#{System.get_env("MIX_TEST_PARTITION")}"),
-  port: System.get_env("DB_PORT") || "54320",
+  port: System.get_env("DB_PORT") || "5432",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
