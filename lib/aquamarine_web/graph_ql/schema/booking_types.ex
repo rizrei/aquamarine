@@ -12,8 +12,8 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     field :end_date, non_null(:date), resolve: &resolve_end_date/3
     field :total_price, non_null(:decimal)
 
-    field :user, non_null(:user), resolve: dataloader(Aquamarine.Accounts)
-    field :place, non_null(:place), resolve: dataloader(Aquamarine.Vacations)
+    field :user, non_null(:user), resolve: dataloader(Accounts)
+    field :place, non_null(:place), resolve: dataloader(Places)
   end
 
   object :booking_mutations do

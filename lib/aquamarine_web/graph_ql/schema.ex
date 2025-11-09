@@ -1,10 +1,10 @@
 defmodule AquamarineWeb.GraphQL.Schema do
   use Absinthe.Schema
 
-  alias Aquamarine.Vacations
-  alias Aquamarine.Accounts
-  alias Aquamarine.Vacations.Dataloader, as: VacationsDataloader
+  alias Aquamarine.Dataloader, as: DefaultDataloader
   alias Aquamarine.Accounts.Dataloader, as: AccountsDataloader
+  alias Aquamarine.Vacations.Places.Dataloader, as: PlacesDataloader
+  alias Aquamarine.Vacations.Bookings.Dataloader, as: BookingsDataloader
 
   import_types(Absinthe.Type.Custom)
   import_types(AquamarineWeb.GraphQl.Schema.UserTypes)
@@ -24,14 +24,16 @@ defmodule AquamarineWeb.GraphQL.Schema do
   def context(ctx) do
     ctx
     |> Map.put(:loader, build_loader())
-    |> Map.put(:current_user, Accounts.get_user_by_email("alice@mail.com"))
+    |> Map.put(:current_user, Aquamarine.Accounts.get_user_by_email("alice@mail.com"))
   end
 
   def plugins, do: [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
 
   defp build_loader do
     Dataloader.new()
-    |> Dataloader.add_source(Vacations, VacationsDataloader.datasource())
+    |> Dataloader.add_source(DefaultLoader, DefaultDataloader.datasource())
+    |> Dataloader.add_source(Places, PlacesDataloader.datasource())
+    |> Dataloader.add_source(Bookings, BookingsDataloader.datasource())
     |> Dataloader.add_source(Accounts, AccountsDataloader.datasource())
   end
 end

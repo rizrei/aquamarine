@@ -9,7 +9,7 @@ defmodule AquamarineWeb.GraphQl.Schema.ReviewTypes do
     field :comment, non_null(:string)
     field :inserted_at, non_null(:naive_datetime)
 
-    field :user, non_null(:user), resolve: dataloader(Aquamarine.Accounts)
-    field :place, non_null(:place), resolve: dataloader(Aquamarine.Vacations)
+    field :user, non_null(:user), resolve: dataloader(Accounts)
+    field :place, non_null(:place), resolve: dataloader(Places)
   end
 end

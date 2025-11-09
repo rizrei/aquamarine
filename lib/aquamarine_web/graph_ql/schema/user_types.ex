@@ -9,8 +9,8 @@ defmodule AquamarineWeb.GraphQl.Schema.UserTypes do
     field :email, non_null(:string)
 
     field :bookings, list_of(:booking),
-      resolve: dataloader(Aquamarine.Vacations, :bookings, args: %{scope: :user})
+      resolve: dataloader(Bookings, :bookings, args: %{scope: :user})
 
-    field :reviews, list_of(:review), resolve: dataloader(Aquamarine.Vacations)
+    field :reviews, list_of(:review), resolve: dataloader(DefaultLoader)
   end
 end

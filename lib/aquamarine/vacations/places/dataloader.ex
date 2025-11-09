@@ -1,6 +1,4 @@
-defmodule Aquamarine.Accounts.Dataloader do
-  use Ecto.Schema
-
+defmodule Aquamarine.Vacations.Places.Dataloader do
   alias Aquamarine.Repo
 
   def datasource, do: Dataloader.Ecto.new(Repo, query: &query/2)

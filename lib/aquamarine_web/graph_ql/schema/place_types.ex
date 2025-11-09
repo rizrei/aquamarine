@@ -22,10 +22,10 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
 
     field :bookings, list_of(:booking) do
       arg(:limit, :integer, default_value: 100)
-      resolve(dataloader(Aquamarine.Vacations, :bookings, args: %{scope: :place}))
+      resolve(dataloader(Bookings, :bookings, args: %{scope: :place}))
     end
 
-    field :reviews, list_of(:review), resolve: dataloader(Aquamarine.Vacations)
+    field :reviews, list_of(:review), resolve: dataloader(Reviews)
   end
 
   object :place_queries do
