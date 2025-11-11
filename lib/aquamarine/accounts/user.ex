@@ -37,15 +37,14 @@ defmodule Aquamarine.Accounts.User do
   end
 
   @doc false
+  @email_regex ~r/^[^@,;\s]+@[^@,;\s]+$/
   def changeset(user, attrs) do
     required_fields = [:name, :email, :password]
 
     user
     |> cast(attrs, required_fields)
     |> validate_required(required_fields)
-    |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
-      message: "must have the @ sign and no spaces"
-    )
+    |> validate_format(:email, @email_regex, message: "must have the @ sign and no spaces")
     |> validate_length(:name, min: 2)
     |> validate_length(:password, min: 6)
     |> unsafe_validate_unique(:email, Repo)
@@ -75,7 +74,5 @@ defmodule Aquamarine.Accounts.User do
     put_change(changeset, :password_hash, Bcrypt.hash_pwd_salt(password))
   end
 
-  defp put_password_hash(changeset) do
-    changeset
-  end
+  defp put_password_hash(changeset), do: changeset
 end

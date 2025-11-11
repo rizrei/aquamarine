@@ -44,8 +44,11 @@ defmodule AquamarineWeb.GraphQL.Errors do
   def error_details(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->
-        String.replace(acc, "%{#{key}}", to_string(value))
+        String.replace(acc, "%{#{key}}", replacement(value))
       end)
     end)
   end
+
+  defp replacement(value) when is_binary(value), do: value
+  defp replacement(value), do: inspect(value)
 end

@@ -53,7 +53,7 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params do
     embeds_one(:filter, Filter)
   end
 
-  @spec validate(t()) :: {:ok, criteria()} | {:error, Ecto.Changeset.t()}
+  @spec validate(map()) :: {:ok, criteria()} | {:error, Ecto.Changeset.t()}
   def validate(params) do
     %__MODULE__{}
     |> changeset(params)

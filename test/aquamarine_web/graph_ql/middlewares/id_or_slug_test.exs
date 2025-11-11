@@ -1,14 +1,16 @@
-defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlugTest do
-  use ExUnit.Case, async: true
+defmodule AquamarineWeb.GraphQL.Middlewares.IdOrSlugTest do
+  @moduledoc false
 
-  alias AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug
+  use Aquamarine.DataCase, async: true
+
+  alias AquamarineWeb.GraphQL.Middlewares.IdOrSlug
   alias Absinthe.Resolution
 
   describe "call/2" do
     test "returns error when both id and slug are provided" do
       res =
         %Resolution{arguments: %{id: "1", slug: "test"}}
-        |> RequireIdOrSlug.call(%{})
+        |> IdOrSlug.call(%{})
 
       assert :resolved = res.state
       assert [[message: "You must provide either `id` or `slug`"]] = res.errors
@@ -17,7 +19,7 @@ defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlugTest do
     test "passes through when id is provided" do
       res =
         %Resolution{arguments: %{id: "1"}}
-        |> RequireIdOrSlug.call(%{})
+        |> IdOrSlug.call(%{})
 
       assert res.state == :unresolved
     end
@@ -25,7 +27,7 @@ defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlugTest do
     test "passes through when slug is provided" do
       res =
         %Resolution{arguments: %{slug: "test"}}
-        |> RequireIdOrSlug.call(%{})
+        |> IdOrSlug.call(%{})
 
       assert res.state == :unresolved
     end
@@ -33,7 +35,7 @@ defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlugTest do
     test "returns error when neither id nor slug is provided" do
       res =
         %Resolution{arguments: %{}}
-        |> RequireIdOrSlug.call(%{})
+        |> IdOrSlug.call(%{})
 
       assert :resolved = res.state
       assert [[message: "You must provide either `id` or `slug`"]] = res.errors

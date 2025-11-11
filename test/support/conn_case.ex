@@ -30,8 +30,20 @@ defmodule AquamarineWeb.ConnCase do
       import AquamarineWeb.ConnCase
       import Aquamarine.Factory
 
-      def graphql_query(conn, query, variables \\ %{}) do
+      defp graphql_query(conn, query, variables \\ %{}) do
         post(conn, "/graphql", %{query: query, variables: variables})
+      end
+
+      defp authenticate(conn, user) do
+        {:ok, token, _} =
+          Aquamarine.Guardian.encode_and_sign(
+            user,
+            %{},
+            token_type: "access",
+            ttl: Aquamarine.Guardian.access_token_ttl()
+          )
+
+        put_req_header(conn, "authorization", "Bearer #{token}")
       end
     end
   end

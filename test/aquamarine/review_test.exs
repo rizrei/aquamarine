@@ -1,4 +1,6 @@
 defmodule Aquamarine.ReviewTest do
+  @moduledoc false
+
   use Aquamarine.DataCase, async: true
 
   alias Aquamarine.Vacations.Review

@@ -7,9 +7,10 @@ defmodule AquamarineWeb.GraphQL.Schema do
   alias Aquamarine.Vacations.Bookings.Dataloader, as: BookingsDataloader
 
   import_types(Absinthe.Type.Custom)
-  import_types(AquamarineWeb.GraphQl.Schema.UserTypes)
+  import_types(AquamarineWeb.GraphQL.Schema.UserTypes)
+  import_types(AquamarineWeb.GraphQL.Schema.SessionTypes)
   import_types(AquamarineWeb.GraphQL.Schema.PlaceTypes)
-  import_types(AquamarineWeb.GraphQl.Schema.ReviewTypes)
+  import_types(AquamarineWeb.GraphQL.Schema.ReviewTypes)
   import_types(AquamarineWeb.GraphQL.Schema.BookingTypes)
   import_types(AquamarineWeb.GraphQL.Schema.SortingOrderTypes)
 
@@ -19,12 +20,12 @@ defmodule AquamarineWeb.GraphQL.Schema do
 
   mutation do
     import_fields(:booking_mutations)
+    import_fields(:session_mutations)
   end
 
   def context(ctx) do
     ctx
     |> Map.put(:loader, build_loader())
-    |> Map.put(:current_user, Aquamarine.Accounts.get_user_by_email("alice@mail.com"))
   end
 
   def plugins, do: [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]

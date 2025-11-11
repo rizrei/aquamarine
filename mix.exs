@@ -48,15 +48,14 @@ defmodule Aquamarine.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # Phoenix
       {:phoenix, "~> 1.8.1"},
       {:phoenix_ecto, "~> 4.5"},
-      {:ecto_sql, "~> 3.13"},
-      {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
-      {:lazy_html, ">= 0.1.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:lazy_html, ">= 0.1.0", only: :test},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
       {:heroicons,
@@ -74,10 +73,14 @@ defmodule Aquamarine.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:bcrypt_elixir, "~> 3.0"},
+      # DB
+      {:postgrex, ">= 0.0.0"},
+      {:ecto_sql, "~> 3.13"},
       {:ecto_range, "~> 0.3.0"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:bcrypt_elixir, "~> 3.0"},
+      # Authentication
+      {:guardian, "~> 2.3"},
+      {:guardian_db, "~> 3.0"},
       # Authorization
       {:bodyguard, "~> 2.4"},
       # GraphQL
@@ -85,6 +88,9 @@ defmodule Aquamarine.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:absinthe_phoenix, "~> 2.0.0"},
       {:dataloader, "~> 2.0.0"},
+      # Linters
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       # Tests
       {:faker, "~> 0.19.0-alpha.1", only: [:dev, :test]},
       {:ex_machina, "~> 2.8.0", only: :test},

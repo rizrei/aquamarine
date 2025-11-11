@@ -12,6 +12,8 @@ defmodule Aquamarine.Application do
       Aquamarine.Repo,
       {DNSCluster, query: Application.get_env(:aquamarine, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Aquamarine.PubSub},
+      {Guardian.DB.Sweeper,
+       [interval: Application.get_env(:guardian, Guardian.DB)[:sweep_interval]]},
       # Start a worker by calling: Aquamarine.Worker.start_link(arg)
       # {Aquamarine.Worker, arg},
       # Start to serve requests, typically the last entry

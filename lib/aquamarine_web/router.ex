@@ -12,12 +12,13 @@ defmodule AquamarineWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug AquamarineWeb.Plugs.SetCurrentUser
   end
 
   scope "/" do
     pipe_through :api
 
-    forward "/graphql", Absinthe.Plug.GraphiQL, schema: AquamarineWeb.GraphQL.Schema
+    forward "/graphql", Absinthe.Plug, schema: AquamarineWeb.GraphQL.Schema
 
     # internal interface for testing
     # {:absinthe_plug, "~> 1.5"}

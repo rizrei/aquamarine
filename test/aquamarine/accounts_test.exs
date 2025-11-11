@@ -1,4 +1,6 @@
 defmodule Aquamarine.AccountsTest do
+  @moduledoc false
+
   use Aquamarine.DataCase, async: true
 
   alias Aquamarine.Accounts
@@ -32,16 +34,14 @@ defmodule Aquamarine.AccountsTest do
     end
   end
 
-  describe "get_user!/1" do
-    test "raises if id is invalid" do
-      assert_raise Ecto.NoResultsError, fn ->
-        Accounts.get_user!("11111111-1111-1111-1111-111111111111")
-      end
+  describe "get_user" do
+    test "return nil if user does not exist" do
+      assert nil == Accounts.get_user(Ecto.UUID.generate())
     end
 
     test "returns the user with the given id" do
       %{id: id} = user = insert(:user)
-      assert %User{id: ^id} = Accounts.get_user!(user.id)
+      assert %User{id: ^id} = Accounts.get_user(user.id)
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule AquamarineWeb.GraphQl.Schema.ReviewTypes do
+defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
   use Absinthe.Schema.Notation
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]

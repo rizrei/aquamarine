@@ -7,9 +7,8 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces do
 
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.{Place, Booking}
-  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params
 
-  @spec call(Params.t()) :: [Place.t()]
+  @spec call(map()) :: [Place.t()]
   def call(params) do
     Place
     |> with_filter(params)
