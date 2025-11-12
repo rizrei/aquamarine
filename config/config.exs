@@ -73,6 +73,17 @@ if config_env() in [:dev, :test] do
   end
 end
 
+config :aquamarine, Aquamarine.Guardian,
+  issuer: "aquamarine",
+  ttl: {10, :minute},
+  secret_key: {System, :get_env, ["GUARDIAN_SECRET_KEY"]}
+
+config :guardian, Guardian.DB,
+  repo: Aquamarine.Repo,
+  schema_name: "guardian_tokens",
+  token_types: ["refresh"],
+  sweep_interval: System.get_env("GUARDIAN_DB_SWEEP_INTERVAL", "3600000") |> String.to_integer()
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

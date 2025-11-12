@@ -1,4 +1,4 @@
-defmodule AquamarineWeb.GraphQl.Schema.UserTypes do
+defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
   use Absinthe.Schema.Notation
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]

@@ -6,7 +6,7 @@ config :aquamarine, Aquamarine.Repo,
   password: System.get_env("DB_PASSWORD", "postgres"),
   hostname: System.get_env("DB_HOST", "localhost"),
   database: System.get_env("DB_NAME", "aquamarine_dev"),
-  port: System.get_env("DB_PORT") || "5432",
+  port: System.get_env("DB_PORT", "5432"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

@@ -1,4 +1,4 @@
-defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug do
+defmodule AquamarineWeb.GraphQL.Middlewares.IdOrSlug do
   @moduledoc """
   Absinthe middleware ensuring that resolver receives *either* `id` or `slug`,
   but not both and not none.
@@ -11,7 +11,7 @@ defmodule AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug do
       field :place, :place do
         arg :id, :id
         arg :slug, :string
-        middleware AquamarineWeb.GraphQl.Middlewares.RequireIdOrSlug
+        middleware AquamarineWeb.GraphQL.Middlewares.IdOrSlug
         resolve &Resolvers.Vacations.Places.place/3
       end
   """

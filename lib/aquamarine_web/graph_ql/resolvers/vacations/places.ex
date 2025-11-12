@@ -1,4 +1,4 @@
-defmodule AquamarineWeb.GraphQl.Resolvers.Vacations.Places do
+defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Places do
   @moduledoc """
   GraphQL resolvers for Vacation Places.
 

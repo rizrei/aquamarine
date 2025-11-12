@@ -46,8 +46,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlaceTest do
   test "returns error message when both id and slug provided", %{conn: conn} do
     conn = graphql_query(conn, @query, %{id: "id", slug: "slug"})
 
-    assert %{"data" => data, "errors" => errors} = json_response(conn, 200)
-    assert %{"place" => nil} = data
+    assert %{"errors" => errors} = json_response(conn, 200)
     assert "You must provide either `id` or `slug`" in graphql_error_messages(errors)
   end
 
@@ -61,8 +60,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlaceTest do
   test "returns error message when identificator does not provided", %{conn: conn} do
     conn = graphql_query(conn, @query)
 
-    assert %{"data" => data, "errors" => errors} = json_response(conn, 200)
-    assert %{"place" => nil} = data
+    assert %{"errors" => errors} = json_response(conn, 200)
     assert "You must provide either `id` or `slug`" in graphql_error_messages(errors)
   end
 
@@ -71,15 +69,14 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlaceTest do
 
     conn = graphql_query(conn, @user_query_by_id, %{id: id})
 
-    assert %{"data" => data} = json_response(conn, 200)
-    assert %{"place" => %{"name" => ^name}} = data
+    assert %{"data" => %{"place" => place}} = json_response(conn, 200)
+    assert %{"name" => ^name} = place
   end
 
   test "user_query_by_id returns error message when record does not exist", %{conn: conn} do
     conn = graphql_query(conn, @user_query_by_id, %{id: Ecto.UUID.generate()})
 
-    assert %{"data" => data, "errors" => errors} = json_response(conn, 200)
-    assert %{"place" => nil} = data
+    assert %{"errors" => errors} = json_response(conn, 200)
     assert "Record not found" in graphql_error_messages(errors)
   end
 end

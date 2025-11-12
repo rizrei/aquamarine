@@ -6,6 +6,8 @@ defmodule Aquamarine.Accounts do
   alias Aquamarine.Repo
   alias Aquamarine.Accounts.User
 
+  @type session :: %{user: User.t(), access_token: String.t(), refresh_token: String.t()}
+
   ## Database getters
 
   @doc """
@@ -26,10 +28,8 @@ defmodule Aquamarine.Accounts do
 
   @doc """
   Gets a single user.
-
-  Raises `Ecto.NoResultsError` if the User does not exist.
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id), do: Repo.get(User, id)
 
   ## User registration
 

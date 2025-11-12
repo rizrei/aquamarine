@@ -1,4 +1,4 @@
-defmodule AquamarineWeb.GraphQl.Resolvers.Vacations.Bookings do
+defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings do
   @moduledoc """
   GraphQL resolvers for vacation bookings.
 
@@ -25,7 +25,7 @@ defmodule AquamarineWeb.GraphQl.Resolvers.Vacations.Bookings do
   @doc """
   Cancels an existing booking for the current user.
   """
-  @spec cancel_booking(any(), %{booking_id: Ecto.UUID.t()}, %{context: %{current_user: User.t()}}) ::
+  @spec cancel_booking(any(), %{id: Ecto.UUID.t()}, %{context: %{current_user: User.t()}}) ::
           {:ok, Booking.t()} | {:error, map()}
   def cancel_booking(_, %{id: id}, %{context: %{current_user: user}}) do
     with {:ok, booking} <- Bookings.fetch_booking(id),
