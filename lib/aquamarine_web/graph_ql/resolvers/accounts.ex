@@ -1,4 +1,11 @@
 defmodule AquamarineWeb.GraphQL.Resolvers.Accounts do
+  @moduledoc """
+  GraphQL resolvers for user authentication and session management.
+
+  This module acts as a bridge between GraphQL mutations/queries and the underlying
+  `Aquamarine.Accounts` business logic (sign-up, sign-in, sign-out, and token refresh).
+  """
+
   import AquamarineWeb.GraphQL.Errors
 
   alias Aquamarine.Accounts

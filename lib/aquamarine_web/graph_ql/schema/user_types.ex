@@ -7,6 +7,8 @@ defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
+  alias AquamarineWeb.GraphQl.Resolvers.Accounts.Users
+
   object :user do
     field :id, non_null(:id)
     field :name, non_null(:string)
@@ -16,5 +18,12 @@ defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
       resolve: dataloader(Bookings, :bookings, args: %{scope: :user})
 
     field :reviews, list_of(:review), resolve: dataloader(DefaultLoader)
+  end
+
+  object :user_queries do
+    @desc "Get the currently signed in user"
+    field :me, :user do
+      resolve(&Users.me/3)
+    end
   end
 end

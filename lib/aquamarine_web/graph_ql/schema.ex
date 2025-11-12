@@ -16,6 +16,7 @@ defmodule AquamarineWeb.GraphQL.Schema do
 
   query do
     import_fields(:place_queries)
+    import_fields(:user_queries)
   end
 
   mutation do
