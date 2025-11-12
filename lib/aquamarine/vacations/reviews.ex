@@ -1,13 +1,18 @@
-defmodule Aquamarine.Vacations do
+defmodule Aquamarine.Vacations.Reviews do
   @moduledoc """
-  The Vacation context: public interface for finding, booking,
-  and reviewing vacation places.
+  Context module for managing vacation reviews.
+
+  Provides functions to get and create review
   """
 
   alias Aquamarine.Repo
-
   alias Aquamarine.Vacations.Review
   alias Aquamarine.Accounts.User
+
+  @doc """
+  Get review by id
+  """
+  def get_review(id), do: Repo.get(Review, id)
 
   @doc """
   Creates a review for the given user.

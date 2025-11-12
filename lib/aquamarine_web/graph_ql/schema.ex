@@ -21,6 +21,7 @@ defmodule AquamarineWeb.GraphQL.Schema do
   mutation do
     import_fields(:booking_mutations)
     import_fields(:session_mutations)
+    import_fields(:review_mutations)
   end
 
   def context(ctx) do

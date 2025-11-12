@@ -6,6 +6,12 @@ defmodule Aquamarine.Vacations.Review do
   alias Aquamarine.Vacations.Place
   alias Aquamarine.Accounts.User
 
+  @type create_review_attr :: %{
+          place_id: Ecto.UUID.t(),
+          comment: String.t(),
+          rating: integer()
+        }
+
   @type t :: %__MODULE__{
           id: Ecto.UUID.t() | nil,
           rating: integer() | nil,
@@ -37,6 +43,7 @@ defmodule Aquamarine.Vacations.Review do
     review
     |> cast(attrs, required_fields)
     |> validate_required(required_fields)
+    |> validate_number(:rating, greater_than_or_equal_to: 1, less_than_or_equal_to: 5)
     |> assoc_constraint(:place)
     |> assoc_constraint(:user)
   end

@@ -1,4 +1,8 @@
 defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
+  @moduledoc """
+  GraphQL types, queries and mutations related to User management.
+  """
+
   use Absinthe.Schema.Notation
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]

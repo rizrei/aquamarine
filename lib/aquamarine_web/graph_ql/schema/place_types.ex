@@ -1,4 +1,8 @@
 defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
+  @moduledoc """
+  GraphQL types, queries and mutations related to Place management.
+  """
+
   use Absinthe.Schema.Notation
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]

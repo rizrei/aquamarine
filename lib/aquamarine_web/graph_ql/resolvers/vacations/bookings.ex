@@ -19,6 +19,7 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings do
     case Bookings.create_booking(user, params) do
       {:ok, booking} -> {:ok, booking}
       {:error, %Ecto.Changeset{} = changeset} -> invalid_changeset_error(changeset)
+      {:error, error} -> {:error, message: inspect(error)}
     end
   end
 
@@ -35,6 +36,7 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings do
       {:error, :not_found} -> record_not_found_error()
       {:error, :unauthorized} -> unauthorized_error()
       {:error, %Ecto.Changeset{} = changeset} -> invalid_changeset_error(changeset)
+      {:error, error} -> {:error, message: inspect(error)}
     end
   end
 end

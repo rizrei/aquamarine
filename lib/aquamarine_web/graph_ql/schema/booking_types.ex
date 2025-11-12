@@ -1,4 +1,8 @@
 defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
+  @moduledoc """
+  GraphQL types, queries and mutations related to Booking management.
+  """
+
   use Absinthe.Schema.Notation
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]

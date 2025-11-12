@@ -1,8 +1,9 @@
 defmodule Aquamarine.Vacations.BookingsTest do
+  @moduledoc false
+
   use Aquamarine.DataCase, async: true
 
-  alias Aquamarine.Vacations.Bookings
-  alias Aquamarine.Vacations.Booking
+  alias Aquamarine.Vacations.{Bookings, Booking}
 
   describe "get_booking/1" do
     test "returns the booking with the given id" do
