@@ -43,6 +43,17 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     end
   end
 
+  object :booking_subscriptions do
+    @desc "Subscribe to booking changes for a place"
+    field :booking_change, :booking do
+      arg(:place_id, non_null(:id))
+
+      config(fn args, _res -> {:ok, topic: args.place_id} end)
+
+      trigger([:create_booking, :cancel_booking], topic: fn booking -> booking.place_id end)
+    end
+  end
+
   def resolve_start_date(%{period: %Postgrex.Range{lower: lower}}, _, _), do: {:ok, lower}
   def resolve_end_date(%{period: %Postgrex.Range{upper: upper}}, _, _), do: {:ok, upper}
 end

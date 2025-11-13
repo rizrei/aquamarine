@@ -11,13 +11,14 @@ defmodule Aquamarine.Application do
       AquamarineWeb.Telemetry,
       Aquamarine.Repo,
       {DNSCluster, query: Application.get_env(:aquamarine, :dns_cluster_query) || :ignore},
+      # Start the PubSub system
       {Phoenix.PubSub, name: Aquamarine.PubSub},
+      # Token cleaner
       {Guardian.DB.Sweeper,
        [interval: Application.get_env(:guardian, Guardian.DB)[:sweep_interval]]},
-      # Start a worker by calling: Aquamarine.Worker.start_link(arg)
-      # {Aquamarine.Worker, arg},
-      # Start to serve requests, typically the last entry
-      AquamarineWeb.Endpoint
+      AquamarineWeb.Endpoint,
+      # Absinthe Subscription
+      {Absinthe.Subscription, AquamarineWeb.Endpoint}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

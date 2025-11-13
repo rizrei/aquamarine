@@ -1,5 +1,11 @@
 defmodule AquamarineWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :aquamarine
+  use Absinthe.Phoenix.Endpoint
+
+  socket "/socket", AquamarineWeb.UserSocket,
+    websocket: true,
+    longpoll: false
+
   plug CORSPlug
 
   # The session will be stored in the cookie and signed,

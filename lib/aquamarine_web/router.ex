@@ -21,10 +21,10 @@ defmodule AquamarineWeb.Router do
     forward "/graphql", Absinthe.Plug, schema: AquamarineWeb.GraphQL.Schema
 
     # internal interface for testing
-    # {:absinthe_plug, "~> 1.5"}
-    # forward "/graphiql", Absinthe.Plug.GraphiQL,
-    #   schema: AquamarineWeb.Schema,
-    #   interface: :simple
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: AquamarineWeb.GraphQL.Schema,
+      socket: AquamarineWeb.UserSocket,
+      interface: :playground
   end
 
   # Other scopes may use custom stacks.

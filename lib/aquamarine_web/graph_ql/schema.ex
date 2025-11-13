@@ -25,6 +25,10 @@ defmodule AquamarineWeb.GraphQL.Schema do
     import_fields(:review_mutations)
   end
 
+  subscription do
+    import_fields(:booking_subscriptions)
+  end
+
   def context(ctx) do
     ctx
     |> Map.put(:loader, build_loader())
