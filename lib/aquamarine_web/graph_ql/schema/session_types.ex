@@ -6,7 +6,7 @@ defmodule AquamarineWeb.GraphQL.Schema.SessionTypes do
   use Absinthe.Schema.Notation
 
   alias AquamarineWeb.GraphQL.Resolvers.Accounts
-  alias AquamarineWeb.GraphQL.Middlewares
+  alias AquamarineWeb.GraphQL.Middleware
 
   object :session do
     field :user, non_null(:user)
@@ -38,7 +38,7 @@ defmodule AquamarineWeb.GraphQL.Schema.SessionTypes do
 
     @desc "Sign out the current user (requires authentication)"
     field :sign_out, :sign_out_result do
-      middleware(Middlewares.Authenticate)
+      middleware(Middleware.Authenticate)
       resolve(&Accounts.sign_out/3)
     end
 

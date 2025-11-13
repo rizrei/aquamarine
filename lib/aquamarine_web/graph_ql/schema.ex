@@ -34,13 +34,18 @@ defmodule AquamarineWeb.GraphQL.Schema do
     |> Map.put(:loader, build_loader())
   end
 
-  def plugins, do: [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
-
   defp build_loader do
     Dataloader.new()
     |> Dataloader.add_source(DefaultLoader, DefaultDataloader.datasource())
     |> Dataloader.add_source(Places, PlacesDataloader.datasource())
     |> Dataloader.add_source(Bookings, BookingsDataloader.datasource())
     |> Dataloader.add_source(Accounts, AccountsDataloader.datasource())
+  end
+
+  def plugins, do: [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+
+  def middleware(middleware, _field, _object) do
+    middleware
+    |> List.insert_at(-1, AquamarineWeb.GraphQL.Middleware.ErrorHandler)
   end
 end

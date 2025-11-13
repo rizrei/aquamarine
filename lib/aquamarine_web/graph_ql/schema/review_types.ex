@@ -8,7 +8,7 @@ defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   alias AquamarineWeb.GraphQL.Resolvers.Vacations.Reviews
-  alias AquamarineWeb.GraphQL.Middlewares
+  alias AquamarineWeb.GraphQL.Middleware
 
   object :review do
     field :id, non_null(:id)
@@ -27,7 +27,7 @@ defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
       arg(:rating, non_null(:integer))
       arg(:comment, non_null(:string))
 
-      middleware(Middlewares.Authenticate)
+      middleware(Middleware.Authenticate)
 
       resolve(&Reviews.create_review/3)
     end

@@ -1,9 +1,9 @@
-defmodule AquamarineWeb.GraphQl.Middlewares.AuthenticateTest do
+defmodule AquamarineWeb.GraphQl.Middleware.AuthenticateTest do
   @moduledoc false
 
   use Aquamarine.DataCase, async: true
 
-  alias AquamarineWeb.GraphQL.Middlewares.Authenticate
+  alias AquamarineWeb.GraphQL.Middleware.Authenticate
   alias Absinthe.Resolution
 
   describe "call/2" do

@@ -58,7 +58,7 @@ defmodule Aquamarine.Accounts.RefreshTokenTest do
       {:ok, refresh_token, _} = encode_and_sign(user, %{}, token_type: "refresh")
       Aquamarine.Repo.delete!(user)
 
-      assert {:error, :record_not_found} = RefreshToken.call(%{refresh_token: refresh_token})
+      assert {:error, :not_found} = RefreshToken.call(%{refresh_token: refresh_token})
     end
 
     test "return token_not_found error when token deleted" do

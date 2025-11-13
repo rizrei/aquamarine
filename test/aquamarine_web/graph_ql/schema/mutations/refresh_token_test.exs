@@ -31,7 +31,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.RefreshTokenTest do
   end
 
   test "return invalid_token error when token invalid", %{conn: conn} do
-    conn = graphql_query(conn, @mutation, %{refreshToken: "invalid_token"})
+    conn = graphql_query(conn, @mutation, %{refreshToken: "refreshToken"})
 
     assert %{"errors" => errors} = json_response(conn, 200)
     assert "Invalid token" in graphql_error_messages(errors)
@@ -44,7 +44,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.RefreshTokenTest do
     conn = graphql_query(conn, @mutation, %{refreshToken: token})
 
     assert %{"errors" => errors} = json_response(conn, 200)
-    assert "Refresh token expired" in graphql_error_messages(errors)
+    assert "Token expired" in graphql_error_messages(errors)
   end
 
   test "return record_not_found error when user does not exist", %{conn: conn} do
@@ -78,6 +78,6 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.RefreshTokenTest do
     conn = graphql_query(conn, @mutation, %{refreshToken: token})
 
     assert %{"errors" => errors} = json_response(conn, 200)
-    assert "Refresh token not found" in graphql_error_messages(errors)
+    assert "Token not found" in graphql_error_messages(errors)
   end
 end

@@ -52,10 +52,10 @@ defmodule Aquamarine.Accounts.SignIn do
 
   defp get_user(%{email: email, password: password}) do
     case Accounts.get_user_by_email_and_password(email, password) do
-      nil -> {:error, :record_not_found}
+      nil -> {:error, :not_found}
       user -> {:ok, user}
     end
   end
 
-  defp get_user(_), do: {:error, :record_not_found}
+  defp get_user(_), do: {:error, :not_found}
 end

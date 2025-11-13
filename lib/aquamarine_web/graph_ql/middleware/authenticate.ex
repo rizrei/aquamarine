@@ -1,4 +1,4 @@
-defmodule AquamarineWeb.GraphQL.Middlewares.Authenticate do
+defmodule AquamarineWeb.GraphQL.Middleware.Authenticate do
   @moduledoc """
   This middleware checks if the `:current_user` key is present in the
   resolution context. If it exists, the request is allowed to proceed.

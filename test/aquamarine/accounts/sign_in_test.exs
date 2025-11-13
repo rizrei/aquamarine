@@ -28,24 +28,24 @@ defmodule Aquamarine.Accounts.SignInTest do
       assert ^refresh_token = get_refresh_token(id)
     end
 
-    test "returns record_not_found when invalid password" do
+    test "returns not_found when invalid password" do
       attrs = %{email: "test@mail.com", password: "Passw0rd"}
 
       insert(:user, email: attrs.email, password_hash: Bcrypt.hash_pwd_salt("Passw0rdPassw0rd"))
 
-      assert {:error, :record_not_found} = SignIn.call(attrs)
+      assert {:error, :not_found} = SignIn.call(attrs)
     end
 
-    test "returns record_not_found when invalid email" do
+    test "returns not_found when invalid email" do
       attrs = %{email: "test@mail.com", password: "Passw0rd"}
 
       insert(:user, email: "foo@mail.com", password_hash: Bcrypt.hash_pwd_salt(attrs.password))
 
-      assert {:error, :record_not_found} = SignIn.call(attrs)
+      assert {:error, :not_found} = SignIn.call(attrs)
     end
 
-    test "returns record_not_found when params empty" do
-      assert {:error, :record_not_found} = SignIn.call(%{})
+    test "returns not_found when params empty" do
+      assert {:error, :not_found} = SignIn.call(%{})
     end
   end
 end

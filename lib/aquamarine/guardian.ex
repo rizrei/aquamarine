@@ -19,7 +19,7 @@ defmodule Aquamarine.Guardian do
     # found in the `"sub"` key. In above `subject_for_token/2` we returned
     # the resource id so here we'll rely on that to look it up.
     case Aquamarine.Accounts.get_user(id) do
-      nil -> {:error, :record_not_found}
+      nil -> {:error, :not_found}
       user -> {:ok, user}
     end
   end

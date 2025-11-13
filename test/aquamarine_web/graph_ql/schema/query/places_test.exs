@@ -1,8 +1,6 @@
 defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   use AquamarineWeb.ConnCase, async: true
 
-  alias Aquamarine.Vacations.Place
-
   @query """
   {
     places {
@@ -11,7 +9,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   }
   """
   test "places query returns all places", %{conn: conn} do
-    %Place{name: name} = insert(:place)
+    %{name: name} = insert(:place)
 
     conn = graphql_query(conn, @query)
 
@@ -27,7 +25,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   }
   """
   test "places query returns limited number of places", %{conn: conn} do
-    [%Place{name: name} | _] = insert_list(2, :place)
+    [%{name: name} | _] = insert_list(2, :place)
     conn = graphql_query(conn, @query)
 
     assert %{"data" => %{"places" => places}} = json_response(conn, 200)
@@ -42,7 +40,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   }
   """
   test "places query returns places filtered by name", %{conn: conn} do
-    %Place{name: name} = insert(:place)
+    %{name: name} = insert(:place)
 
     conn = graphql_query(conn, @query, %{search: name})
 
@@ -75,7 +73,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   }
   """
   test "places query returns places filtered by pet friendly, pool, wifi", %{conn: conn} do
-    %Place{name: name} = insert(:place, pet_friendly: true, pool: true, wifi: false)
+    %{name: name} = insert(:place, pet_friendly: true, pool: true, wifi: false)
     insert(:place, pet_friendly: false)
     insert(:place, pool: false)
     insert(:place, wifi: true)
@@ -94,7 +92,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   }
   """
   test "places query returns places filtered by guest count", %{conn: conn} do
-    %Place{name: name} = insert(:place, max_guests: 3)
+    %{name: name} = insert(:place, max_guests: 3)
     insert(:place, max_guests: 1)
 
     conn = graphql_query(conn, @query)
@@ -122,7 +120,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlacesTest do
   end
 
   test "places query returns places filtered by available dates", %{conn: conn} do
-    %Place{name: name} = place = insert(:place)
+    %{name: name} = place = insert(:place)
 
     insert(:booking,
       place: place,

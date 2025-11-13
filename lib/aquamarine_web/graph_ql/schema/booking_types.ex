@@ -8,7 +8,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
   alias AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings
-  alias AquamarineWeb.GraphQL.Middlewares
+  alias AquamarineWeb.GraphQL.Middleware
 
   object :booking do
     field :id, non_null(:id)
@@ -28,7 +28,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
       arg(:start_date, non_null(:date))
       arg(:end_date, non_null(:date))
 
-      middleware(Middlewares.Authenticate)
+      middleware(Middleware.Authenticate)
 
       resolve(&Bookings.create_booking/3)
     end
@@ -37,7 +37,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     field :cancel_booking, :booking do
       arg(:id, non_null(:id))
 
-      middleware(Middlewares.Authenticate)
+      middleware(Middleware.Authenticate)
 
       resolve(&Bookings.cancel_booking/3)
     end

@@ -1,9 +1,9 @@
-defmodule AquamarineWeb.GraphQL.Middlewares.IdOrSlugTest do
+defmodule AquamarineWeb.GraphQL.Middleware.IdOrSlugTest do
   @moduledoc false
 
   use Aquamarine.DataCase, async: true
 
-  alias AquamarineWeb.GraphQL.Middlewares.IdOrSlug
+  alias AquamarineWeb.GraphQL.Middleware.IdOrSlug
   alias Absinthe.Resolution
 
   describe "call/2" do
