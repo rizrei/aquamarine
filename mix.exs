@@ -55,8 +55,10 @@ defmodule Aquamarine.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
       {:phoenix_live_dashboard, "~> 0.8.3"},
-      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
+      {:dns_cluster, "~> 0.2.0"},
+      # Frontend
       {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
@@ -64,14 +66,15 @@ defmodule Aquamarine.MixProject do
        app: false,
        compile: false,
        depth: 1},
-      {:swoosh, "~> 1.16"},
-      {:req, "~> 0.5"},
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.26"},
-      {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.2.0"},
+      # HTTP
       {:bandit, "~> 1.5"},
+      {:req, "~> 0.5"},
+      # JSON
+      {:jason, "~> 1.2"},
+      # Mailer
+      {:swoosh, "~> 1.16"},
+      # I18n
+      {:gettext, "~> 0.26"},
       # DB
       {:postgrex, ">= 0.0.0"},
       {:ecto_sql, "~> 3.13"},
@@ -89,6 +92,9 @@ defmodule Aquamarine.MixProject do
       {:dataloader, "~> 2.0.0"},
       # CORS
       {:cors_plug, "~> 3.0"},
+      # Metrics
+      {:telemetry_metrics, "~> 1.0"},
+      {:telemetry_poller, "~> 1.0"},
       # Linters
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
