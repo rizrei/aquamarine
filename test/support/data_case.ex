@@ -18,13 +18,11 @@ defmodule Aquamarine.DataCase do
 
   using do
     quote do
-      alias Aquamarine.Repo
-
       import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-      import Aquamarine.DataCase
-      import Aquamarine.Factory
+      import Ecto.{Changeset, Query}
+      import Aquamarine.{Factory, DataCase}
+
+      alias Aquamarine.Repo
     end
   end
 

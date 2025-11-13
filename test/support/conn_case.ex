@@ -24,11 +24,13 @@ defmodule AquamarineWeb.ConnCase do
 
       use AquamarineWeb, :verified_routes
 
+      # setup db and import Ecto functions
+      use Aquamarine.DataCase
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import AquamarineWeb.ConnCase
-      import Aquamarine.Factory
 
       defp graphql_query(conn, query, variables \\ %{}) do
         post(conn, "/graphql", %{query: query, variables: variables})
@@ -45,12 +47,12 @@ defmodule AquamarineWeb.ConnCase do
 
         put_req_header(conn, "authorization", "Bearer #{token}")
       end
-    end
-  end
 
-  setup tags do
-    Aquamarine.DataCase.setup_sandbox(tags)
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+      setup tags do
+        conn = Phoenix.ConnTest.build_conn()
+        {:ok, conn: conn}
+      end
+    end
   end
 
   def graphql_error_messages(errors) do
