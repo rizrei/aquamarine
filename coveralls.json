@@ -2,6 +2,13 @@
   "skip_files": [
     "test/factories",
     "test/support",
-    "lib/aquamarine/repo.ex"
+    "lib/aquamarine.ex",
+    "lib/aquamarine/repo.ex",
+    "lib/aquamarine/mailer.ex",
+    "lib/aquamarine_web/gettext.ex",
+    "lib/aquamarine_web/endpoint.ex",
+    "lib/aquamarine_web/components/layouts.ex",
+    "lib/aquamarine_web/components/core_components.ex",
+    "lib/aquamarine_web/graph_ql/schema/*"
   ]
 }

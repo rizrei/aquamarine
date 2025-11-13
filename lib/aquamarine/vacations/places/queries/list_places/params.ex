@@ -77,6 +77,5 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params do
   defp do_compact({_k, nil}, acc), do: acc
   defp do_compact({k, %Date{} = v}, acc), do: Map.put(acc, k, v)
   defp do_compact({k, %{} = v}, acc), do: Map.put(acc, k, do_compact(v))
-  defp do_compact({k, %_{} = v}, acc), do: Map.put(acc, k, do_compact(v))
   defp do_compact({k, v}, acc), do: Map.put(acc, k, v)
 end

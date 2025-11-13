@@ -53,14 +53,12 @@ defmodule Aquamarine.Vacations.PlacesTest do
     end
 
     test "when guest_count is 0" do
-      {:error, changeset} = Places.list_places(%{filter: %{guest_count: 0}})
-
+      assert {:error, changeset} = Places.list_places(%{filter: %{guest_count: 0}})
       assert "must be greater than 0" in errors_on(changeset).filter.guest_count
     end
 
     test "when invalid order_by" do
-      {:error, changeset} = Places.list_places(%{order_by: %{name: :foo}})
-
+      assert {:error, changeset} = Places.list_places(%{order_by: %{name: :foo}})
       assert "is invalid" in errors_on(changeset).order_by.name
     end
 

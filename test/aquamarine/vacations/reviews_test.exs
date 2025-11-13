@@ -32,7 +32,6 @@ defmodule Aquamarine.Vacations.ReviewsTest do
       attr = %{place_id: Ecto.UUID.generate(), rating: 5, comment: "Comment"}
 
       assert {:error, %Ecto.Changeset{} = changeset} = Reviews.create_review(user, attr)
-
       assert "does not exist" in errors_on(changeset).place
     end
   end
