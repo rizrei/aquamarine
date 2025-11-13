@@ -1,4 +1,40 @@
 defmodule Aquamarine.Guardian do
+  @moduledoc """
+  Guardian implementation module for the Aquamarine application.
+
+  This module defines how authentication tokens are created, verified, refreshed,
+  and revoked using the [`Guardian`](https://hex.pm/packages/guardian) library,
+  with persistence handled through [`Guardian.DB`](https://hex.pm/packages/guardian_db).
+
+  ### Responsibilities
+
+  - Defines how a user (`resource`) is encoded into and decoded from JWT claims.
+  - Integrates with `Guardian.DB` to track and manage token lifecycle events.
+  - Provides helper functions for configuring access and refresh token TTLs.
+
+  ### Key Callbacks
+
+  - `subject_for_token/2` — Generates a unique subject (typically the user ID)
+  for encoding into the `"sub"` claim of the JWT.
+  - `resource_from_claims/1` — Retrieves the user resource from token claims.
+  - `after_encode_and_sign/4` — Stores the signed token in the Guardian DB.
+  - `on_verify/3` — Verifies tokens and validates them against Guardian DB records.
+  - `on_refresh/3` — Handles token refresh operations.
+  - `on_revoke/3` — Removes tokens from the Guardian DB when revoked.
+
+  ### Helper Functions
+
+  - `access_token_ttl/0` — Returns the access token TTL as `{value, unit}`,
+  based on environment variables:
+  - `GUARDIAN_ACCESS_TOKEN_TTL_VALUE`
+  - `GUARDIAN_ACCESS_TOKEN_TTL_UNIT`
+
+  - `refresh_token_ttl/0` — Returns the refresh token TTL as `{value, unit}`,
+  based on environment variables:
+  - `GUARDIAN_REFRESH_TOKEN_TTL_VALUE`
+  - `GUARDIAN_REFRESH_TOKEN_TTL_UNIT
+  """
+
   use Guardian, otp_app: :aquamarine
 
   @impl true

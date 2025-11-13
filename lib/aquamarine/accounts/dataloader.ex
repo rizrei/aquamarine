@@ -1,4 +1,6 @@
 defmodule Aquamarine.Accounts.Dataloader do
+  @moduledoc false
+
   use Ecto.Schema
 
   alias Aquamarine.Repo

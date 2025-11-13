@@ -1,4 +1,6 @@
 defmodule AquamarineWeb.GraphQL.Schema do
+  @moduledoc false
+
   use Absinthe.Schema
 
   alias Aquamarine.Dataloader, as: DefaultDataloader

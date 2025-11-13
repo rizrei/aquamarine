@@ -1,4 +1,6 @@
 defmodule Aquamarine.Vacations.Bookings.Dataloader do
+  @moduledoc false
+
   import Ecto.Query
 
   alias Aquamarine.Repo

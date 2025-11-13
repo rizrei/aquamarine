@@ -1,4 +1,11 @@
 defmodule Aquamarine.Vacations.Review do
+  @moduledoc """
+  Schema and changeset for user reviews of vacation places.
+
+  A `Review` represents feedback left by a user for a specific `Place`,
+  including a numeric rating and an optional textual comment.
+  """
+
   use Ecto.Schema
 
   import Ecto.Changeset

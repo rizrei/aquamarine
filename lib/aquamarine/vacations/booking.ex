@@ -1,4 +1,13 @@
 defmodule Aquamarine.Vacations.Booking do
+  @moduledoc """
+  Schema and changeset for bookings made by users for vacation places.
+
+  A `Booking` represents a reservation of a specific `Place` by a `User`
+  for a given date range. It includes the booking state, total price,
+  and integrity checks ensuring that periods do not overlap and are valid.
+
+  """
+
   use Ecto.Schema
 
   import Ecto.Changeset

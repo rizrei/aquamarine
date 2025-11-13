@@ -1,4 +1,6 @@
 defmodule Aquamarine.Dataloader do
+  @moduledoc false
+
   alias Aquamarine.Repo
 
   def datasource, do: Dataloader.Ecto.new(Repo, query: &query/2)

@@ -1,4 +1,12 @@
 defmodule Aquamarine.Vacations.Place do
+  @moduledoc """
+  Schema and changeset for vacation places available for booking.
+
+  A `Place` represents a rental property or vacation destination listed in the system.
+  It includes descriptive information, pricing, amenities, and relations to associated
+  bookings and reviews.
+
+  """
   use Ecto.Schema
 
   import Ecto.Changeset
