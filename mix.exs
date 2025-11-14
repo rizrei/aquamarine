@@ -13,6 +13,8 @@ defmodule Aquamarine.MixProject do
       compilers: [:phoenix_live_view] ++ Mix.compilers(),
       listeners: [Phoenix.CodeReloader],
       test_coverage: [tool: ExCoveralls],
+      dialyzer: [plt_file: {:no_warn, "priv/plts/project.plt"}],
+      excoveralls: [threshold: 80],
       preferred_cli_env: [
         coveralls: :test,
         "coveralls.detail": :test,
@@ -98,6 +100,7 @@ defmodule Aquamarine.MixProject do
       # Linters
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
       # Tests
       {:faker, "~> 0.19.0-alpha.1", only: [:dev, :test]},
       {:ex_machina, "~> 2.8.0", only: :test},

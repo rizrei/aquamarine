@@ -1,3 +1,4 @@
+[![Elixir CI](https://github.com/rizrei/aquamarine/actions/workflows/elixir.yml/badge.svg)](https://github.com/rizrei/aquamarine/actions/workflows/elixir.yml)
 # Aquamarine
 Aquamarine is a sample Phoenix + Absinthe (GraphQL) application that demonstrates a vacation rental backend:
 places, bookings, and reviews with GraphQL API and Ecto.

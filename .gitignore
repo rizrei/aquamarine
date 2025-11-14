@@ -25,6 +25,10 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 aquamarine-*.tar
 
+# Ignore Dialyzer PLT files.
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
+
 # Ignore assets that are produced by build tools.
 /priv/static/assets/
 
