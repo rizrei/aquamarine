@@ -1,18 +1,337 @@
 # Aquamarine
+Aquamarine is a sample Phoenix + Absinthe (GraphQL) application that demonstrates a vacation rental backend:
+places, bookings, and reviews with GraphQL API and Ecto.
 
-To start your Phoenix server:
+## Features
 
-* Run `mix setup` to install and setup dependencies
-* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+- GraphQL API using Absinthe (mounted at `/graphql`) and GraphiQL in dev.
+- Ecto-based data models for Places, Bookings and Reviews.
+- Authentication and per-user actions (Guarded via Guardian).
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Installation
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+1. Install Elixir dependencies:
 
-## Learn more
+    ```sh
+    mix deps.get
+    ```
 
-* Official website: https://www.phoenixframework.org/
-* Guides: https://hexdocs.pm/phoenix/overview.html
-* Docs: https://hexdocs.pm/phoenix
-* Forum: https://elixirforum.com/c/phoenix-forum
-* Source: https://github.com/phoenixframework/phoenix
+2. Create the database, run all the migrations, and load the sample data:
+
+    ```sh
+    mix ecto.setup
+    ```
+
+3. Make sure all the tests pass:
+
+    ```sh
+    mix test
+    ```
+
+4. Fire up the Phoenix endpoint:
+
+    ```sh
+    mix phx.server
+    ```
+    - GraphQL endpoint: POST to `/graphql`
+    - GraphiQL (dev only): `/graphiql`
+
+5. Visit [`localhost:4000/graphiql`](http://localhost:4000/graphiql) to explore the GraphQL API using the GraphiQL user interface.
+
+## Example Queries, Mutations, and Subscriptions
+
+### Get All Places
+
+```graphql
+query {
+  places {
+    id
+    slug
+    name
+    location
+    description
+    image
+    imageThumbnail
+    pricePerNight
+    maxGuests
+    petFriendly
+    pool
+    wifi
+  }
+}
+```
+
+### Get Places Filtered by Name, Description, or Location
+
+```graphql
+query {
+  places(filter: {search: "lake"}) {
+    name
+    location
+    description
+  }
+}
+```
+
+### Get Places Filtered by Guest Count
+
+```graphql
+query {
+  places(filter: {guestCount: 6}) {
+    name
+    maxGuests
+  }
+}
+```
+
+### Get Places Filtered by Features
+
+```graphql
+query {
+  places(filter: {petFriendly: true, pool: false, wifi: true}) {
+    name
+    petFriendly
+    pool
+    wifi
+  }
+}
+```
+
+### Get Places Available From a Start Date to an End Date
+
+```graphql
+query {
+  places(filter: {
+    availableBetween: {startDate: "2019-02-01", endDate:"2019-02-10"}
+  }) {
+    name
+    slug
+  }
+}
+```
+
+### Get a Specific Place By Its Id
+
+```graphql
+query {
+  place(id: "36b17d1d-988d-4f97-b06a-95e224c771d9") {
+    id
+    name
+    slug
+  }
+}
+```
+
+### Get a Specific Place By Its Slug
+
+```graphql
+query {
+  place(slug: "mountain-chalet") {
+    id
+    name
+    slug
+  }
+}
+```
+
+### Get a Specific Place and Its Bookings
+
+```graphql
+query {
+  place(slug: "sand-castle") {
+    id
+    bookings {
+      id
+      startDate
+      endDate
+      state
+      totalPrice
+    }
+  }
+}
+```
+
+### Get a Specific Place and Its Reviews
+
+```graphql
+query {
+  place(slug: "sand-castle") {
+    id
+    reviews {
+      id
+      rating
+      comment
+      user {
+        username
+      }
+    }
+  }
+}
+```
+
+### Sign Up
+
+```graphql
+mutation {
+  signUp(name: "MyName", password: "Password", email: "example@mail.com") {
+    user{
+			id
+			name
+			email
+		}
+    accessToken
+		refreshToken
+  }
+}
+```
+
+### Sign In
+
+```graphql
+mutation {
+  signIn(name: "MyName", password: "Password") {
+    user{
+			id
+			name
+			email
+		}
+    accessToken
+		refreshToken
+  }
+}
+```
+
+### Sign Out (access_token required)
+
+```graphql
+mutation {
+  signOut{
+		success
+	}
+}
+```
+
+### Refresh token
+
+```graphql
+mutation {
+  refreshToken(refreshToken: "my_refresh_token") {
+    user{
+			id
+			name
+			email
+			bookings{
+				id
+			}
+		}
+    accessToken
+		refreshToken
+  }
+}
+```
+
+### Get the Currently Signed-in User
+
+```graphql
+query {
+  me {
+    name
+    email
+  }
+}
+```
+
+### Get the Current User's Bookings
+
+```graphql
+query {
+  me {
+    bookings {
+      id
+      startDate
+      endDate
+      state
+      totalPrice
+    }
+  }
+}
+```
+
+### Create a Booking for the Current User and a Place
+
+```graphql
+mutation {
+  createBooking(
+    placeId: "36b17d1d-988d-4f97-b06a-95e224c771d9",
+    startDate: "2019-03-01",
+    endDate: "2019-03-05") {
+    id
+    startDate
+    endDate
+    state
+    totalPrice
+  }
+}
+```
+
+### Cancel a Booking for the Current User
+
+```graphql
+mutation {
+  cancelBooking(bookingId: "009f7014-c3ab-42b0-b2cf-7cf693ceeeff") {
+    id
+    state
+  }
+}
+```
+
+### Subscribe to Booking Changes for a Specific Place
+
+```graphql
+subscription {
+  bookingChange(placeId: "36b17d1d-988d-4f97-b06a-95e224c771d9") {
+    id
+    startDate
+    endDate
+    totalPrice
+    state
+  }
+}
+```
+
+### Create a Review by the Current User for a Specific Place
+
+```graphql
+mutation {
+  createReview(
+    placeId: "36b17d1d-988d-4f97-b06a-95e224c771d9"
+    comment: "Love!"
+    rating: 5
+  ) {
+    id
+    rating
+    comment
+    insertedAt
+    user {
+      name
+    }
+  }
+}
+```
+
+### Introspecting the Schema
+
+```graphql
+{
+  __type(name: "Place") {
+    fields {
+      name
+      type {
+        kind
+        name
+      }
+    }
+  }
+}
+```
+

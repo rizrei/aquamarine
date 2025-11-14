@@ -41,4 +41,6 @@ aquamarine.code-workspace
 /.DS_Store
 /cover
 .elixir_ls
-/config/.env.*.exs
+/config/.env.dev.exs
+/config/.env.test.exs
+/config/.env.exs
