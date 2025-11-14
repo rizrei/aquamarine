@@ -18,19 +18,19 @@ defmodule AquamarineWeb.Router do
   scope "/" do
     pipe_through :api
 
-    forward "/graphql", Absinthe.Plug, schema: AquamarineWeb.GraphQL.Schema
-
-    # internal interface for testing
-    forward "/graphiql", Absinthe.Plug.GraphiQL,
+    forward "/graphql", Absinthe.Plug,
       schema: AquamarineWeb.GraphQL.Schema,
-      socket: AquamarineWeb.UserSocket,
-      interface: :playground
-  end
+      analyze_complexity: true,
+      max_complexity: 50
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AquamarineWeb do
-  #   pipe_through :api
-  # end
+    if Mix.env() == :dev do
+      # internal interface for testing
+      forward "/graphiql", Absinthe.Plug.GraphiQL,
+        schema: AquamarineWeb.GraphQL.Schema,
+        socket: AquamarineWeb.UserSocket,
+        interface: :playground
+    end
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:aquamarine, :dev_routes) do
