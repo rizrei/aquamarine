@@ -14,6 +14,7 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces do
     |> with_filter(params)
     |> with_order(params)
     |> with_limit(params)
+    |> with_offset(params)
     |> Repo.all()
   end
 
@@ -74,4 +75,7 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces do
 
   defp with_limit(query, %{limit: limit}), do: limit(query, ^limit)
   defp with_limit(query, _), do: query
+
+  defp with_offset(query, %{offset: offset}), do: offset(query, ^offset)
+  defp with_offset(query, _), do: query
 end

@@ -25,7 +25,8 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     field :image_thumbnail, non_null(:string)
 
     field :bookings, list_of(:booking) do
-      arg(:limit, :integer, default_value: 100)
+      arg(:limit, :integer, default_value: 50)
+      arg(:offset, :integer)
       resolve(dataloader(Bookings, :bookings, args: %{scope: :place}))
     end
 
@@ -46,6 +47,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     @desc "Get a list of places"
     field :places, list_of(:place) do
       arg(:limit, :integer)
+      arg(:offset, :integer)
       arg(:order_by, :place_order)
       arg(:filter, :place_filter)
 
