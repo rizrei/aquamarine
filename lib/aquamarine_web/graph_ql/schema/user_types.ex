@@ -4,8 +4,12 @@ defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
   """
 
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
+
+  import Absinthe.Resolution.RelayHelpers,
+    only: [connection_dataloader: 2, connection_dataloader: 3]
 
   alias AquamarineWeb.GraphQl.Resolvers.Accounts.Users
 
@@ -14,10 +18,22 @@ defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
     field :name, non_null(:string)
     field :email, non_null(:string)
 
-    field :bookings, list_of(:booking),
-      resolve: dataloader(Bookings, :bookings, args: %{scope: :user})
+    field :reviews, list_of(:review), resolve: dataloader(DL)
 
-    field :reviews, list_of(:review), resolve: dataloader(DefaultLoader)
+    field :bookings, list_of(:booking) do
+      arg(:limit, :integer)
+      arg(:offset, :integer)
+
+      resolve(dataloader(BookingsDL, :bookings, args: %{scope: :user}))
+    end
+
+    connection field :reviews_connection, node_type: :review do
+      resolve(connection_dataloader(DL, :reviews))
+    end
+
+    connection field :bookings_connection, node_type: :booking do
+      resolve(connection_dataloader(BookingsDL, :bookings, args: %{scope: :user}))
+    end
   end
 
   object :user_queries do

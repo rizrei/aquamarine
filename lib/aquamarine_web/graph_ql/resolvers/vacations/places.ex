@@ -36,4 +36,15 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Places do
       error -> error
     end
   end
+
+  @doc """
+  Returns a list of places relay connections.
+  """
+  @spec places_connection(any(), map(), any()) ::
+          {:ok, Absinthe.Relay.Connection.t()} | {:error, map()}
+  def places_connection(parent, params, resolution) do
+    with {:ok, places} <- places(parent, params, resolution) do
+      Absinthe.Relay.Connection.from_list(places, params)
+    end
+  end
 end

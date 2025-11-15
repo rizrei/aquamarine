@@ -4,6 +4,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
   """
 
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
@@ -17,9 +18,11 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     field :end_date, non_null(:date), resolve: &resolve_end_date/3
     field :total_price, non_null(:decimal)
 
-    field :user, non_null(:user), resolve: dataloader(Accounts)
-    field :place, non_null(:place), resolve: dataloader(Places)
+    field :user, non_null(:user), resolve: dataloader(DL)
+    field :place, non_null(:place), resolve: dataloader(DL)
   end
+
+  connection(node_type: :booking)
 
   object :booking_mutations do
     @desc "Create booking for place"

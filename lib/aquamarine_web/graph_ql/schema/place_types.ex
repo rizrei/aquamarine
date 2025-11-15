@@ -4,10 +4,14 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
   """
 
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1, dataloader: 3]
 
-  alias AquamarineWeb.GraphQL.Resolvers.Vacations.Places
+  import Absinthe.Resolution.RelayHelpers,
+    only: [connection_dataloader: 2, connection_dataloader: 3]
+
+  alias AquamarineWeb.GraphQL.Resolvers.Vacations.{Places}
   alias AquamarineWeb.GraphQL.Middleware
 
   object :place do
@@ -24,14 +28,24 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
     field :image, non_null(:string)
     field :image_thumbnail, non_null(:string)
 
+    field :reviews, list_of(:review), resolve: dataloader(DL)
+
     field :bookings, list_of(:booking) do
       arg(:limit, :integer, default_value: 50)
       arg(:offset, :integer)
-      resolve(dataloader(Bookings, :bookings, args: %{scope: :place}))
+      resolve(dataloader(BookingsDL, :bookings, args: %{scope: :place}))
     end
 
-    field :reviews, list_of(:review), resolve: dataloader(Reviews)
+    connection field :reviews_connection, node_type: :review do
+      resolve(connection_dataloader(DL, :reviews))
+    end
+
+    connection field :bookings_connection, node_type: :booking do
+      resolve(connection_dataloader(BookingsDL, :bookings, args: %{scope: :place}))
+    end
   end
+
+  connection(node_type: :place)
 
   object :place_queries do
     @desc "Get a place by id or slug"
@@ -52,6 +66,14 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
       arg(:filter, :place_filter)
 
       resolve(&Places.places/3)
+    end
+
+    @desc "Get a list of places connection"
+    connection field :places_connection, node_type: :place do
+      arg(:order_by, :place_order)
+      arg(:filter, :place_filter)
+
+      resolve(&Places.places_connection/3)
     end
   end
 

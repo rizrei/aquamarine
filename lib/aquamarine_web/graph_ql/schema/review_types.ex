@@ -4,6 +4,7 @@ defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
   """
 
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
@@ -16,9 +17,11 @@ defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
     field :comment, non_null(:string)
     field :inserted_at, non_null(:naive_datetime)
 
-    field :user, non_null(:user), resolve: dataloader(Accounts)
-    field :place, non_null(:place), resolve: dataloader(Places)
+    field :user, non_null(:user), resolve: dataloader(DL)
+    field :place, non_null(:place), resolve: dataloader(DL)
   end
+
+  connection(node_type: :review)
 
   object :review_mutations do
     @desc "Create review"
