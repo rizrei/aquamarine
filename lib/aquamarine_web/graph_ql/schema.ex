@@ -2,9 +2,9 @@ defmodule AquamarineWeb.GraphQL.Schema do
   @moduledoc false
 
   use Absinthe.Schema
+  use Absinthe.Relay.Schema, :modern
 
-  alias Aquamarine.Dataloader, as: DefaultDataloader
-  alias Aquamarine.Accounts.Dataloader, as: AccountsDataloader
+  alias AquamarineWeb.GraphQL.Middleware
   alias Aquamarine.Vacations.Places.Dataloader, as: PlacesDataloader
   alias Aquamarine.Vacations.Bookings.Dataloader, as: BookingsDataloader
 
@@ -38,16 +38,15 @@ defmodule AquamarineWeb.GraphQL.Schema do
 
   defp build_loader do
     Dataloader.new()
-    |> Dataloader.add_source(DefaultLoader, DefaultDataloader.datasource())
-    |> Dataloader.add_source(Places, PlacesDataloader.datasource())
-    |> Dataloader.add_source(Bookings, BookingsDataloader.datasource())
-    |> Dataloader.add_source(Accounts, AccountsDataloader.datasource())
+    |> Dataloader.add_source(DL, Dataloader.Ecto.new(Aquamarine.Repo))
+    |> Dataloader.add_source(PlacesDL, PlacesDataloader.datasource())
+    |> Dataloader.add_source(BookingsDL, BookingsDataloader.datasource())
   end
 
   def plugins, do: [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
 
   def middleware(middleware, _field, _object) do
     middleware
-    |> List.insert_at(-1, AquamarineWeb.GraphQL.Middleware.ErrorHandler)
+    |> List.insert_at(-1, Middleware.ErrorHandler)
   end
 end

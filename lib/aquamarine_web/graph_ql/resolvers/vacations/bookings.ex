@@ -5,8 +5,8 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings do
   Provides operations for creating and cancelling bookings,
   """
 
-  alias Aquamarine.Vacations.{Bookings, Booking}
   alias Aquamarine.Accounts.User
+  alias Aquamarine.Vacations.{Bookings, Booking}
 
   @doc """
   Creates a new booking for the current user.

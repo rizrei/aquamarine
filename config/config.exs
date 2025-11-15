@@ -84,6 +84,9 @@ config :guardian, Guardian.DB,
   token_types: ["refresh"],
   sweep_interval: System.get_env("GUARDIAN_DB_SWEEP_INTERVAL", "3600000") |> String.to_integer()
 
+# mix absinthe.schema.json --pretty
+config :absinthe, :schema, AquamarineWeb.GraphQL.Schema
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"
