@@ -103,14 +103,14 @@ defmodule Aquamarine.Guardian do
   def access_token_ttl do
     {
       System.get_env("GUARDIAN_ACCESS_TOKEN_TTL_VALUE") |> String.to_integer(),
-      System.get_env("GUARDIAN_ACCESS_TOKEN_TTL_UNIT") |> String.to_atom()
+      System.get_env("GUARDIAN_ACCESS_TOKEN_TTL_UNIT") |> String.to_existing_atom()
     }
   end
 
   def refresh_token_ttl do
     {
       System.get_env("GUARDIAN_REFRESH_TOKEN_TTL_VALUE") |> String.to_integer(),
-      System.get_env("GUARDIAN_REFRESH_TOKEN_TTL_UNIT") |> String.to_atom()
+      System.get_env("GUARDIAN_REFRESH_TOKEN_TTL_UNIT") |> String.to_existing_atom()
     }
   end
 end

@@ -115,6 +115,17 @@ jobs:
       - name: Run Credo
         run: mix credo
 
+      - name: Check unused dependencies
+        run: mix deps.unlock --check-unused
+
+      - name: Deps security audit
+        run: mix deps.audit
+        
+      - name: Security check
+        run: mix sobelow -i Config.HTTPS
+
+
+
   test:
     needs: setup
     runs-on: ubuntu-22.04
