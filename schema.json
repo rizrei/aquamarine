@@ -1062,7 +1062,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The ID of an object",
               "isDeprecated": false,
               "name": "id",
               "type": {
@@ -1157,7 +1157,13 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "kind": "OBJECT",
           "name": "Booking",
           "possibleTypes": null
@@ -1629,6 +1635,54 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": "The ID of the object.",
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "INTERFACE",
+          "name": "Node",
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "Booking",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Place",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Review",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "When paginating forwards, the cursor to continue.",
               "isDeprecated": false,
               "name": "endCursor",
@@ -1802,7 +1856,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The ID of an object",
               "isDeprecated": false,
               "name": "id",
               "type": {
@@ -2046,7 +2100,13 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "kind": "OBJECT",
           "name": "Place",
           "possibleTypes": null
@@ -2251,6 +2311,33 @@
               "args": [
                 {
                   "defaultValue": null,
+                  "description": "The ID of an object.",
+                  "name": "id",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Node query",
+              "isDeprecated": false,
+              "name": "node",
+              "type": {
+                "kind": "INTERFACE",
+                "name": "Node",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
                   "description": null,
                   "name": "id",
                   "type": {
@@ -2440,7 +2527,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The ID of an object",
               "isDeprecated": false,
               "name": "id",
               "type": {
@@ -2519,7 +2606,13 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "kind": "OBJECT",
           "name": "Review",
           "possibleTypes": null
@@ -2872,7 +2965,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The ID of an object",
               "isDeprecated": false,
               "name": "id",
               "type": {
@@ -2972,7 +3065,13 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "kind": "OBJECT",
           "name": "User",
           "possibleTypes": null

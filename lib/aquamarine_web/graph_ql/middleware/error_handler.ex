@@ -36,6 +36,7 @@ defmodule AquamarineWeb.GraphQL.Middleware.ErrorHandler do
   defp handle_error(:not_found), do: [%{message: "Record not found"}]
   defp handle_error(:unauthenticated), do: [%{message: "Authentication required"}]
   defp handle_error(:unauthorized), do: [%{message: "You are not allowed to perform this action"}]
+  defp handle_error(:invalid_params), do: [%{message: "Invalid input params"}]
   defp handle_error(%{message: _} = error), do: [error]
   defp handle_error(message: message), do: [%{message: message}]
   defp handle_error(error), do: [inspect(error)]

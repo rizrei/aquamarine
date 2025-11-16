@@ -1,8 +1,6 @@
 defmodule AquamarineWeb.GraphQL.Schema.Query.PlaceTest do
   use AquamarineWeb.ConnCase, async: true
 
-  alias Aquamarine.Vacations.Place
-
   @user_query_by_slug """
   query ($slug: String!) {
     place(slug: $slug) {
@@ -20,7 +18,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlaceTest do
   """
 
   test "user_query_by_slug returns the place with a given slug", %{conn: conn} do
-    %Place{name: name, slug: slug} = insert(:place)
+    %{name: name, slug: slug} = insert(:place)
 
     conn = graphql_query(conn, @user_query_by_slug, %{slug: slug})
 
@@ -65,18 +63,21 @@ defmodule AquamarineWeb.GraphQL.Schema.Query.PlaceTest do
   end
 
   test "user_query_by_id returns the place with a given id", %{conn: conn} do
-    %Place{id: id, name: name} = insert(:place)
+    %{id: id, name: name} = insert(:place)
+    place_gid = to_global_id(id, :place)
 
-    conn = graphql_query(conn, @user_query_by_id, %{id: id})
+    conn = graphql_query(conn, @user_query_by_id, %{id: place_gid})
 
     assert %{"data" => %{"place" => place}} = json_response(conn, 200)
     assert %{"name" => ^name} = place
   end
 
   test "user_query_by_id returns error message when record does not exist", %{conn: conn} do
-    conn = graphql_query(conn, @user_query_by_id, %{id: Ecto.UUID.generate()})
+    id = Ecto.UUID.generate()
+    conn = graphql_query(conn, @user_query_by_id, %{id: id})
 
+    message = "Could not decode ID value `#{id}'"
     assert %{"errors" => errors} = json_response(conn, 200)
-    assert "Record not found" in graphql_error_messages(errors)
+    assert message in graphql_error_messages(errors)
   end
 end

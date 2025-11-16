@@ -57,6 +57,12 @@ defmodule Aquamarine.DataCase do
     end)
   end
 
+  def to_global_id(%{id: id}, graphql_object_type),
+    do: Absinthe.Relay.Node.to_global_id(graphql_object_type, id, AquamarineWeb.GraphQL.Schema)
+
+  def to_global_id(id, graphql_object_type) when is_binary(id),
+    do: Absinthe.Relay.Node.to_global_id(graphql_object_type, id, AquamarineWeb.GraphQL.Schema)
+
   def changeset_required_fields_error(changeset) do
     changeset
     |> errors_on()

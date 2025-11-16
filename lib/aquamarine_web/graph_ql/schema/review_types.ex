@@ -11,8 +11,7 @@ defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
   alias AquamarineWeb.GraphQL.Middleware
   alias AquamarineWeb.GraphQL.Resolvers.Vacations.Reviews
 
-  object :review do
-    field :id, non_null(:id)
+  node object(:review) do
     field :rating, non_null(:integer)
     field :comment, non_null(:string)
     field :inserted_at, non_null(:naive_datetime)
