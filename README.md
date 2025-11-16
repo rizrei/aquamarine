@@ -279,7 +279,7 @@ mutation {
 
 ```graphql
 mutation {
-  cancelBooking(bookingId: "009f7014-c3ab-42b0-b2cf-7cf693ceeeff") {
+  cancelBooking(id: "009f7014-c3ab-42b0-b2cf-7cf693ceeeff") {
     id
     state
   }
