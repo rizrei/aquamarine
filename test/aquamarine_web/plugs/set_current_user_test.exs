@@ -3,14 +3,15 @@ defmodule AquamarineWeb.Plugs.SetCurrentUserTest do
 
   use AquamarineWeb.ConnCase, async: true
 
-  alias Aquamarine.Guardian
+  import Aquamarine.Guardian, only: [encode_and_sign: 2]
+
   alias Aquamarine.Accounts.User
   alias AquamarineWeb.Plugs.SetCurrentUser
 
   describe "call/2" do
     test "sets current_user and access_token in context with valid token", %{conn: conn} do
       %User{id: id} = user = insert(:user)
-      {:ok, token, _claims} = Guardian.encode_and_sign(user, %{typ: "access"})
+      {:ok, token, _claims} = encode_and_sign(user, %{typ: "access"})
 
       conn =
         conn
@@ -43,7 +44,7 @@ defmodule AquamarineWeb.Plugs.SetCurrentUserTest do
 
     test "returns empty context when token is refresh_token", %{conn: conn} do
       user = insert(:user)
-      {:ok, token, _claims} = Guardian.encode_and_sign(user, %{typ: "refresh"})
+      {:ok, token, _claims} = encode_and_sign(user, %{typ: "refresh"})
 
       conn =
         conn

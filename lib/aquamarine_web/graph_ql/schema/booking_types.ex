@@ -8,8 +8,8 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
-  alias AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings
   alias AquamarineWeb.GraphQL.Middleware
+  alias AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings
 
   object :booking do
     field :id, non_null(:id)
@@ -51,9 +51,9 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
     field :booking_change, :booking do
       arg(:place_id, non_null(:id))
 
-      config(fn args, _res -> {:ok, topic: args.place_id} end)
+      config(fn %{place_id: place_id}, _res -> {:ok, topic: place_id} end)
 
-      trigger([:create_booking, :cancel_booking], topic: fn booking -> booking.place_id end)
+      trigger([:create_booking, :cancel_booking], topic: & &1.place_id)
     end
   end
 

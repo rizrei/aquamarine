@@ -10,8 +10,8 @@ defmodule Aquamarine.Vacations.Review do
 
   import Ecto.Changeset
 
-  alias Aquamarine.Vacations.Place
   alias Aquamarine.Accounts.User
+  alias Aquamarine.Vacations.Place
 
   @type create_review_attr :: %{
           place_id: Ecto.UUID.t(),

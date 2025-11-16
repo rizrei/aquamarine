@@ -5,7 +5,9 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Places do
   Provides fetching a single place by `id` or `slug`, and listing multiple places.
   """
 
-  alias Aquamarine.Vacations.{Places, Place}
+  alias Absinthe.Relay.Connection
+  alias Aquamarine.Vacations.{Place, Places}
+  alias Places.Queries.ListPlaces
 
   @doc """
   Get place by id or slug
@@ -42,9 +44,10 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Places do
   """
   @spec places_connection(any(), map(), any()) ::
           {:ok, Absinthe.Relay.Connection.t()} | {:error, map()}
-  def places_connection(parent, params, resolution) do
-    with {:ok, places} <- places(parent, params, resolution) do
-      Absinthe.Relay.Connection.from_list(places, params)
+  def places_connection(_parent, params, _resolution) do
+    with {:ok, validated_params} <- ListPlaces.Params.validate(params),
+         query <- ListPlaces.call(validated_params) do
+      Connection.from_query(query, &Aquamarine.Repo.all/1, params)
     end
   end
 end

@@ -5,8 +5,8 @@ defmodule AquamarineWeb.GraphQL.Schema.SessionTypes do
 
   use Absinthe.Schema.Notation
 
-  alias AquamarineWeb.GraphQL.Resolvers.Accounts
   alias AquamarineWeb.GraphQL.Middleware
+  alias AquamarineWeb.GraphQL.Resolvers.Accounts
 
   object :session do
     field :user, non_null(:user)

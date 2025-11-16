@@ -5,8 +5,7 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces do
 
   import Ecto.Query
 
-  alias Aquamarine.Repo
-  alias Aquamarine.Vacations.{Place, Booking}
+  alias Aquamarine.Vacations.{Booking, Place}
 
   @spec call(map()) :: [Place.t()]
   def call(params) do
@@ -15,7 +14,6 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces do
     |> with_order(params)
     |> with_limit(params)
     |> with_offset(params)
-    |> Repo.all()
   end
 
   defp with_filter(query, %{filter: filters}) do

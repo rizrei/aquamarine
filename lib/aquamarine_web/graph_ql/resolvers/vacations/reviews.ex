@@ -5,7 +5,7 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Reviews do
   Provides fetching a single place by `id` or `slug`, and listing multiple places.
   """
 
-  alias Aquamarine.Vacations.{Reviews, Review}
+  alias Aquamarine.Vacations.{Review, Reviews}
 
   @doc """
   Creates a new review for place.

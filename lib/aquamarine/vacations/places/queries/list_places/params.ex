@@ -4,9 +4,10 @@ defmodule Aquamarine.Vacations.Places.Queries.ListPlaces.Params do
   """
 
   use Ecto.Schema
+
   import Ecto.Changeset
 
-  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params.{OrderBy, Filter}
+  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params.{Filter, OrderBy}
 
   @typedoc """
   Struct representing normalized parameters for `list_places/1`.

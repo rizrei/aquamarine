@@ -5,9 +5,9 @@ defmodule Aquamarine.Vacations.Reviews do
   Provides functions to get and create review
   """
 
+  alias Aquamarine.Accounts.User
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.Review
-  alias Aquamarine.Accounts.User
 
   @doc """
   Get review by id

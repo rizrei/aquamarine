@@ -8,8 +8,8 @@ defmodule AquamarineWeb.GraphQL.Schema.ReviewTypes do
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
-  alias AquamarineWeb.GraphQL.Resolvers.Vacations.Reviews
   alias AquamarineWeb.GraphQL.Middleware
+  alias AquamarineWeb.GraphQL.Resolvers.Vacations.Reviews
 
   object :review do
     field :id, non_null(:id)

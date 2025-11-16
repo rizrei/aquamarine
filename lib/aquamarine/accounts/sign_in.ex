@@ -18,8 +18,10 @@ defmodule Aquamarine.Accounts.SignIn do
       iex> Aquamarine.Accounts.SignIn.call(%{email: "wrong@example.com", password: "oops"})
       {:error, :record_not_found}
   """
+  import Aquamarine.Guardian,
+    only: [access_token_ttl: 0, refresh_token_ttl: 0, encode_and_sign: 3]
 
-  alias Aquamarine.{Guardian, Accounts}
+  alias Aquamarine.Accounts
 
   @type sign_in_attrs :: %{email: String.t(), password: String.t()}
 
@@ -33,21 +35,12 @@ defmodule Aquamarine.Accounts.SignIn do
   end
 
   defp create_access_token(user) do
-    Guardian.encode_and_sign(
-      user,
-      %{},
-      token_type: "access",
-      ttl: Guardian.access_token_ttl()
-    )
+    encode_and_sign(user, %{}, token_type: "access", ttl: access_token_ttl())
   end
 
   defp create_refresh_token(user, access_token_jti) do
-    Guardian.encode_and_sign(
-      user,
-      %{access_token_jti: access_token_jti},
-      token_type: "refresh",
-      ttl: Guardian.refresh_token_ttl()
-    )
+    claims = %{access_token_jti: access_token_jti}
+    encode_and_sign(user, claims, token_type: "refresh", ttl: refresh_token_ttl())
   end
 
   defp get_user(%{email: email, password: password}) do

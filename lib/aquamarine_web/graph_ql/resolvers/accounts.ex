@@ -7,7 +7,7 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Accounts do
   """
 
   alias Aquamarine.Accounts
-  alias Accounts.{SignUp, SignIn, SignOut, RefreshToken}
+  alias Aquamarine.Accounts.{RefreshToken, SignIn, SignOut, SignUp}
 
   @spec sign_up(any(), SignUp.sign_up_attrs(), any()) ::
           {:ok, Accounts.session()} | {:error, map()}

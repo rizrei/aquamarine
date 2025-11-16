@@ -11,8 +11,8 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
   import Absinthe.Resolution.RelayHelpers,
     only: [connection_dataloader: 2, connection_dataloader: 3]
 
-  alias AquamarineWeb.GraphQL.Resolvers.Vacations.{Places}
   alias AquamarineWeb.GraphQL.Middleware
+  alias AquamarineWeb.GraphQL.Resolvers.Vacations.Places
 
   object :place do
     field :id, non_null(:id)

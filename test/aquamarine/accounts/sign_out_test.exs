@@ -6,7 +6,7 @@ defmodule Aquamarine.Accounts.SignOutTest do
   import Ecto.Query
   import Aquamarine.Guardian, only: [encode_and_sign: 3]
 
-  alias Aquamarine.Accounts.{SignUp, SignOut}
+  alias Aquamarine.Accounts.{SignOut, SignUp}
 
   def get_refresh_token(user_id) do
     "guardian_tokens"

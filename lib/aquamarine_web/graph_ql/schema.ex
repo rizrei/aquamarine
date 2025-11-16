@@ -4,9 +4,9 @@ defmodule AquamarineWeb.GraphQL.Schema do
   use Absinthe.Schema
   use Absinthe.Relay.Schema, :modern
 
-  alias AquamarineWeb.GraphQL.Middleware
-  alias Aquamarine.Vacations.Places.Dataloader, as: PlacesDataloader
   alias Aquamarine.Vacations.Bookings.Dataloader, as: BookingsDataloader
+  alias Aquamarine.Vacations.Places.Dataloader, as: PlacesDataloader
+  alias AquamarineWeb.GraphQL.Middleware
 
   import_types(Absinthe.Type.Custom)
   import_types(AquamarineWeb.GraphQL.Schema.UserTypes)

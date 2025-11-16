@@ -3,7 +3,7 @@ defmodule Aquamarine.Vacations.BookingsTest do
 
   use Aquamarine.DataCase, async: true
 
-  alias Aquamarine.Vacations.{Bookings, Booking}
+  alias Aquamarine.Vacations.{Booking, Bookings}
 
   describe "get_booking/1" do
     test "returns the booking with the given id" do

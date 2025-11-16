@@ -7,7 +7,7 @@ defmodule Aquamarine.Vacations.Bookings.Validations do
   import Ecto.Changeset
 
   alias Aquamarine.Repo
-  alias Aquamarine.Vacations.{Place, Booking}
+  alias Aquamarine.Vacations.{Booking, Place}
 
   def put_period(%Ecto.Changeset{valid?: true} = changeset) do
     put_change(changeset, :period, %Postgrex.Range{

@@ -3,8 +3,8 @@ defmodule AquamarineWeb.GraphQL.Middleware.IdOrSlugTest do
 
   use Aquamarine.DataCase, async: true
 
-  alias AquamarineWeb.GraphQL.Middleware.IdOrSlug
   alias Absinthe.Resolution
+  alias AquamarineWeb.GraphQL.Middleware.IdOrSlug
 
   describe "call/2" do
     test "returns error when both id and slug are provided" do

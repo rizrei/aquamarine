@@ -3,8 +3,8 @@ defmodule Aquamarine.Accounts do
   The Accounts context.
   """
 
-  alias Aquamarine.Repo
   alias Aquamarine.Accounts.User
+  alias Aquamarine.Repo
 
   @type session :: %{user: User.t(), access_token: String.t(), refresh_token: String.t()}
 

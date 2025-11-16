@@ -3,9 +3,10 @@ defmodule Aquamarine.Accounts.SignOut do
   Handles user sign-out by revoking refresh tokens linked to an access token.
   """
 
+  import Aquamarine.Guardian, only: [decode_and_verify: 2]
   import Ecto.Query
 
-  alias Aquamarine.{Repo, Guardian}
+  alias Aquamarine.Repo
 
   @spec call(String.t()) :: {:ok, %{success: true}} | {:error, atom()}
   def call(access_token) do
@@ -19,7 +20,7 @@ defmodule Aquamarine.Accounts.SignOut do
   end
 
   def decode_and_verify_token(access_token) do
-    Guardian.decode_and_verify(access_token, %{"typ" => "access"})
+    decode_and_verify(access_token, %{"typ" => "access"})
   end
 
   defp revoke_related_refresh_token(access_token_jti) do

@@ -6,9 +6,9 @@ defmodule Aquamarine.Vacations.Bookings do
   """
 
   alias __MODULE__.Policy
+  alias Aquamarine.Accounts.User
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.Booking
-  alias Aquamarine.Accounts.User
 
   defdelegate authorize(action, user, params), to: Policy
 

@@ -3,8 +3,8 @@ defmodule AquamarineWeb.GraphQl.Middleware.AuthenticateTest do
 
   use Aquamarine.DataCase, async: true
 
-  alias AquamarineWeb.GraphQL.Middleware.Authenticate
   alias Absinthe.Resolution
+  alias AquamarineWeb.GraphQL.Middleware.Authenticate
 
   describe "call/2" do
     test "returns error when user does not present" do

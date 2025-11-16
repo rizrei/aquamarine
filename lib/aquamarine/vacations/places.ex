@@ -9,7 +9,6 @@ defmodule Aquamarine.Vacations.Places do
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.Place
   alias Aquamarine.Vacations.Places.Queries.ListPlaces
-  alias Aquamarine.Vacations.Places.Queries.ListPlaces.Params
 
   @doc """
   Fetches a place by its slug.
@@ -77,8 +76,9 @@ defmodule Aquamarine.Vacations.Places do
 
   @spec list_places(map()) :: [Place.t()] | {:error, Ecto.Changeset.t()}
   def list_places(params) do
-    with {:ok, result} <- Params.validate(params) do
-      ListPlaces.call(result)
+    with {:ok, params} <- ListPlaces.Params.validate(params),
+         query <- ListPlaces.call(params) do
+      Repo.all(query)
     end
   end
 end

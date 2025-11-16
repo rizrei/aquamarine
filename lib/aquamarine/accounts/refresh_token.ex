@@ -47,11 +47,7 @@ defmodule Aquamarine.Accounts.RefreshToken do
   end
 
   defp create_refresh_token(user, access_token_jti) do
-    encode_and_sign(
-      user,
-      %{access_token_jti: access_token_jti},
-      token_type: "refresh",
-      ttl: refresh_token_ttl()
-    )
+    claims = %{access_token_jti: access_token_jti}
+    encode_and_sign(user, claims, token_type: "refresh", ttl: refresh_token_ttl())
   end
 end

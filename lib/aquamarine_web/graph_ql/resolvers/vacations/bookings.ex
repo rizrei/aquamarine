@@ -6,7 +6,7 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings do
   """
 
   alias Aquamarine.Accounts.User
-  alias Aquamarine.Vacations.{Bookings, Booking}
+  alias Aquamarine.Vacations.{Booking, Bookings}
 
   @doc """
   Creates a new booking for the current user.
