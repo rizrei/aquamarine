@@ -8,6 +8,9 @@ places, bookings, and reviews with GraphQL API and Ecto.
 - GraphQL API using Absinthe (mounted at `/graphql`) and GraphiQL in dev.
 - Ecto-based data models for Places, Bookings and Reviews.
 - Authentication and per-user actions (Guarded via Guardian).
+- Real-time update mechanism for bookings, implemented using GraphQL Subscriptions over WebSocket connection.
+- Relay Node Interface, providing globally unique object identifiers and a unified entry point for fetching any entity by its ID
+- Relay Connections for pagination, allowing efficient, cursor-based navigation through lists such as places, bookings, and reviews
 
 ## Installation
 
@@ -39,7 +42,24 @@ places, bookings, and reviews with GraphQL API and Ecto.
 
 5. Visit [`localhost:4000/graphiql`](http://localhost:4000/graphiql) to explore the GraphQL API using the GraphiQL user interface.
 
+6. Visit [graphql.org](https://graphql.org/learn) to learn more about GraphQL
+
 ## Example Queries, Mutations, and Subscriptions
+
+### Relay Node interface
+```graphql
+query {
+  place: node(id: "UGxhY2U6ZmE3Mzk5NjEtMDRjMS00ZWUzLTkwZGUtOTJmYjhkNTBlOGZh") {
+    ... on Place {
+      id
+      name
+      bookings {
+        id
+      }
+    }
+  }
+}
+```
 
 ### Get All Places
 
@@ -115,7 +135,7 @@ query {
 
 ```graphql
 query {
-  place(id: "36b17d1d-988d-4f97-b06a-95e224c771d9") {
+  place(id: "UGxhY2U6ZmE3Mzk5NjEtMDRjMS00ZWUzLTkwZGUtOTJmYjhkNTBlOGZh") {
     id
     name
     slug
@@ -176,12 +196,12 @@ query {
 mutation {
   signUp(name: "MyName", password: "Password", email: "example@mail.com") {
     user{
-			id
-			name
-			email
-		}
+      id
+      name
+      email
+    }
     accessToken
-		refreshToken
+    refreshToken
   }
 }
 ```
@@ -192,12 +212,12 @@ mutation {
 mutation {
   signIn(name: "MyName", password: "Password") {
     user{
-			id
-			name
-			email
-		}
+      id
+      name
+      email
+    }
     accessToken
-		refreshToken
+    refreshToken
   }
 }
 ```
@@ -217,16 +237,16 @@ mutation {
 ```graphql
 mutation {
   refreshToken(refreshToken: "my_refresh_token") {
-    user{
-			id
-			name
-			email
-			bookings{
-				id
-			}
-		}
+    user {
+      id
+      name
+      email
+      bookings {
+        id
+      }
+    }
     accessToken
-		refreshToken
+    refreshToken
   }
 }
 ```
@@ -263,7 +283,7 @@ query {
 ```graphql
 mutation {
   createBooking(
-    placeId: "36b17d1d-988d-4f97-b06a-95e224c771d9",
+    placeId: "UGxhY2U6ZmE3Mzk5NjEtMDRjMS00ZWUzLTkwZGUtOTJmYjhkNTBlOGZh",
     startDate: "2019-03-01",
     endDate: "2019-03-05") {
     id
@@ -279,7 +299,7 @@ mutation {
 
 ```graphql
 mutation {
-  cancelBooking(id: "009f7014-c3ab-42b0-b2cf-7cf693ceeeff") {
+  cancelBooking(id: "Qm9va2luZzo2YTQ4ODYxOC1kNmFhLTQwYWEtYTAxOS1hMGUxMTk0M2VlMWM=") {
     id
     state
   }
@@ -290,7 +310,7 @@ mutation {
 
 ```graphql
 subscription {
-  bookingChange(placeId: "36b17d1d-988d-4f97-b06a-95e224c771d9") {
+  bookingChange(placeId: "UGxhY2U6ZmE3Mzk5NjEtMDRjMS00ZWUzLTkwZGUtOTJmYjhkNTBlOGZh") {
     id
     startDate
     endDate
@@ -305,7 +325,7 @@ subscription {
 ```graphql
 mutation {
   createReview(
-    placeId: "36b17d1d-988d-4f97-b06a-95e224c771d9"
+    placeId: "UGxhY2U6ZmE3Mzk5NjEtMDRjMS00ZWUzLTkwZGUtOTJmYjhkNTBlOGZh"
     comment: "Love!"
     rating: 5
   ) {

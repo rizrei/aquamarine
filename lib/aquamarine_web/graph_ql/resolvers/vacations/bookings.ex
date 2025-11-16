@@ -22,9 +22,7 @@ defmodule AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings do
   """
   @spec cancel_booking(any(), %{id: Ecto.UUID.t()}, %{context: %{current_user: User.t()}}) ::
           {:ok, Booking.t()} | {:error, map()}
-  def cancel_booking(_, %{id: id}, %{context: %{current_user: user}}) do
-    with {:ok, booking} <- Bookings.fetch_booking(id) do
-      Bookings.cancel_booking(user, booking)
-    end
+  def cancel_booking(_, params, %{context: %{current_user: user}}) do
+    Bookings.cancel_booking(user, params)
   end
 end

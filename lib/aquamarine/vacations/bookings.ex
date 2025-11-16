@@ -5,10 +5,13 @@ defmodule Aquamarine.Vacations.Bookings do
   Provides functions to get, create, and cancel bookings,
   """
 
+  import Absinthe.Relay.Node, only: [from_global_id: 2]
+
   alias __MODULE__.Policy
   alias Aquamarine.Accounts.User
   alias Aquamarine.Repo
   alias Aquamarine.Vacations.Booking
+  alias AquamarineWeb.GraphQL.Schema
 
   defdelegate authorize(action, user, params), to: Policy
 
@@ -33,24 +36,36 @@ defmodule Aquamarine.Vacations.Bookings do
   Creates a booking for the given user.
   """
   @spec create_booking(User.t(), Booking.create_booking_attr()) ::
-          {:ok, Booking.t()} | {:error, Ecto.Changeset.t()}
-  def create_booking(%User{} = user, attrs) do
-    %Booking{}
-    |> Booking.changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:user, user)
-    |> Repo.insert()
+          {:ok, Booking.t()} | {:error, Ecto.Changeset.t()} | {:error, String.t()}
+  def create_booking(%User{} = user, %{} = params) do
+    with {:ok, place_gid} <- Map.fetch(params, :place_id),
+         {:ok, %{id: place_id, type: :place}} <- from_global_id(place_gid, Schema) do
+      %Booking{}
+      |> Booking.changeset(%{params | place_id: place_id})
+      |> Ecto.Changeset.put_assoc(:user, user)
+      |> Aquamarine.Repo.insert()
+    else
+      :error -> {:error, "Invalid place_id"}
+      error -> error
+    end
   end
+
+  def create_booking(_, _), do: {:error, "Invalid input params"}
 
   @doc """
   Cancels the given booking.
   """
-  @spec cancel_booking(User.t(), Booking.t()) ::
-          {:ok, Booking.t()} | {:error, Ecto.Changeset.t()} | {:error, :unauthorized}
-  def cancel_booking(%User{} = user, %Booking{} = booking) do
-    with :ok <- Bodyguard.permit(Policy, :cancel_booking, user, booking) do
+  @spec cancel_booking(User.t(), %{id: String.t()}) ::
+          {:ok, Booking.t()} | {:error, Ecto.Changeset.t()} | {:error, atom()}
+  def cancel_booking(%User{} = user, %{id: gid}) do
+    with {:ok, %{id: id, type: :booking}} <- from_global_id(gid, Schema),
+         {:ok, booking} <- fetch_booking(id),
+         :ok <- Bodyguard.permit(Policy, :cancel_booking, user, booking) do
       booking
       |> Booking.cancel_changeset()
       |> Repo.update()
     end
   end
+
+  def cancel_booking(_, _), do: {:error, "Invalid input params"}
 end

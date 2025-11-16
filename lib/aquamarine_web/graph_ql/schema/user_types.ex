@@ -13,8 +13,7 @@ defmodule AquamarineWeb.GraphQL.Schema.UserTypes do
 
   alias AquamarineWeb.GraphQl.Resolvers.Accounts.Users
 
-  object :user do
-    field :id, non_null(:id)
+  node object(:user) do
     field :name, non_null(:string)
     field :email, non_null(:string)
 

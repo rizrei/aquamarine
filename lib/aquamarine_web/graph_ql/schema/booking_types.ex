@@ -11,8 +11,7 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
   alias AquamarineWeb.GraphQL.Middleware
   alias AquamarineWeb.GraphQL.Resolvers.Vacations.Bookings
 
-  object :booking do
-    field :id, non_null(:id)
+  node object(:booking) do
     field :state, non_null(:string)
     field :start_date, non_null(:date), resolve: &resolve_start_date/3
     field :end_date, non_null(:date), resolve: &resolve_end_date/3
@@ -52,11 +51,14 @@ defmodule AquamarineWeb.GraphQL.Schema.BookingTypes do
       arg(:place_id, non_null(:id))
 
       config(fn %{place_id: place_id}, _res -> {:ok, topic: place_id} end)
-
-      trigger([:create_booking, :cancel_booking], topic: & &1.place_id)
+      trigger([:create_booking, :cancel_booking], topic: &place_topic(&1.place_id))
     end
   end
 
-  def resolve_start_date(%{period: %Postgrex.Range{lower: lower}}, _, _), do: {:ok, lower}
-  def resolve_end_date(%{period: %Postgrex.Range{upper: upper}}, _, _), do: {:ok, upper}
+  defp resolve_start_date(%{period: %Postgrex.Range{lower: lower}}, _, _), do: {:ok, lower}
+  defp resolve_end_date(%{period: %Postgrex.Range{upper: upper}}, _, _), do: {:ok, upper}
+
+  defp place_topic(place_id) do
+    Absinthe.Relay.Node.to_global_id(:place, place_id, AquamarineWeb.GraphQL.Schema)
+  end
 end
