@@ -16,27 +16,19 @@ defmodule Aquamarine.Vacations.Bookings.Validations do
     })
   end
 
-  def put_period(changeset) do
-    changeset
-  end
+  def put_period(changeset), do: changeset
 
   def put_total_price(%Ecto.Changeset{valid?: true} = changeset) do
     with %Postgrex.Range{lower: lower, upper: upper} <- get_field(changeset, :period),
-         %Place{price_per_night: price} <- Repo.get(Place, get_field(changeset, :place_id)) do
+         %Place{price_per_night: price} <- changeset |> get_field(:place_id) |> get_place() do
       put_change(changeset, :total_price, Decimal.mult(price, Date.diff(upper, lower)))
     else
-      _ ->
-        add_error(
-          changeset,
-          :total_price,
-          "Cannot calculate total price: invalid period or place"
-        )
+      {:error, :not_found} -> add_error(changeset, :place_id, "place not found")
+      _ -> add_error(changeset, :total_price, "invalid total price")
     end
   end
 
-  def put_total_price(changeset) do
-    changeset
-  end
+  def put_total_price(changeset), do: changeset
 
   def validate_dates(%Ecto.Changeset{valid?: true} = changeset) do
     with %Date{} = lower <- get_field(changeset, :start_date),
@@ -48,9 +40,7 @@ defmodule Aquamarine.Vacations.Bookings.Validations do
     end
   end
 
-  def validate_dates(changeset) do
-    changeset
-  end
+  def validate_dates(changeset), do: changeset
 
   def validate_period_available(%Ecto.Changeset{valid?: true} = changeset) do
     with %Postgrex.Range{} = period <- get_field(changeset, :period),
@@ -62,8 +52,13 @@ defmodule Aquamarine.Vacations.Bookings.Validations do
     end
   end
 
-  def validate_period_available(changeset) do
-    changeset
+  def validate_period_available(changeset), do: changeset
+
+  defp get_place(place_id) do
+    case Repo.get(Place, place_id) do
+      nil -> {:error, :not_found}
+      place -> place
+    end
   end
 
   defp overlapping_bookings?(%Postgrex.Range{} = period, place_id) do

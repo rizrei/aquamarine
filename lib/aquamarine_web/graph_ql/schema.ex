@@ -7,8 +7,10 @@ defmodule AquamarineWeb.GraphQL.Schema do
   alias Aquamarine.Vacations.Bookings.Dataloader, as: BookingsDataloader
   alias Aquamarine.Vacations.Places.Dataloader, as: PlacesDataloader
   alias AquamarineWeb.GraphQL.Middleware
+  alias AquamarineWeb.GraphQl.Resolvers.Node
 
   import_types(Absinthe.Type.Custom)
+  import_types(AquamarineWeb.GraphQL.Schema.NodeTypes)
   import_types(AquamarineWeb.GraphQL.Schema.UserTypes)
   import_types(AquamarineWeb.GraphQL.Schema.SessionTypes)
   import_types(AquamarineWeb.GraphQL.Schema.PlaceTypes)
@@ -16,9 +18,14 @@ defmodule AquamarineWeb.GraphQL.Schema do
   import_types(AquamarineWeb.GraphQL.Schema.BookingTypes)
   import_types(AquamarineWeb.GraphQL.Schema.SortingOrderTypes)
 
+  node interface do
+    resolve_type(&Node.node_type/2)
+  end
+
   query do
     import_fields(:place_queries)
     import_fields(:user_queries)
+    import_fields(:node_queries)
   end
 
   mutation do

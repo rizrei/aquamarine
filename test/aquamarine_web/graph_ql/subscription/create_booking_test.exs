@@ -20,18 +20,18 @@ defmodule AquamarineWeb.Schema.Subscription.CreateBookingTest do
   """
   test "new booking can be subscribed to", %{socket: socket, conn: conn} do
     user = insert(:user)
-    place = insert(:place)
+    place_gid = insert(:place) |> to_global_id(:place)
 
     #
     # 1. Setup the subscription
     #
-    ref = push_doc(socket, @subscription, variables: %{placeId: place.id})
+    ref = push_doc(socket, @subscription, variables: %{placeId: place_gid})
     assert_reply ref, :ok, %{subscriptionId: subscription_id}
 
     #
     # 2. Run a mutation to trigger the subscription
     #
-    variables = %{"startDate" => "2025-11-11", "endDate" => "2025-11-22", "placeId" => place.id}
+    variables = %{"startDate" => "2025-11-11", "endDate" => "2025-11-22", "placeId" => place_gid}
 
     conn =
       conn

@@ -19,6 +19,7 @@ defmodule AquamarineWeb.Schema.Query.MeTest do
   """
   test "me query returns my bookings", %{conn: conn} do
     %{id: place_id} = place = insert(:place)
+    plase_gid = to_global_id(place_id, :place)
     %{name: name} = user = insert(:user)
 
     lower = "2025-11-11"
@@ -42,7 +43,7 @@ defmodule AquamarineWeb.Schema.Query.MeTest do
     assert %{"data" => %{"me" => me}} = json_response(conn, 200)
     assert %{"name" => ^name, "bookings" => bookings} = me
     assert [%{"startDate" => ^lower, "endDate" => ^upper, "place" => place1}] = bookings
-    assert %{"id" => ^place_id} = place1
+    assert %{"id" => ^plase_gid} = place1
   end
 
   test "me query fails if not signed in", %{conn: conn} do

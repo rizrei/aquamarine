@@ -3,8 +3,6 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.CreateBookingTest do
 
   use AquamarineWeb.ConnCase, async: true
 
-  alias Aquamarine.Vacations.Place
-
   @mutation """
   mutation ($placeId: ID!, $startDate: Date!, $endDate: Date!) {
     createBooking(placeId: $placeId, startDate: $startDate, endDate: $endDate) {
@@ -13,16 +11,15 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.CreateBookingTest do
       state
       place {
         id
-        name
       }
     }
   }
   """
   test "create booking when params valid", %{conn: conn} do
     user = insert(:user)
-    %Place{id: place_id, name: name} = insert(:place)
+    place_gid = insert(:place) |> to_global_id(:place)
 
-    variables = %{placeId: place_id, startDate: "2025-11-11", endDate: "2025-11-15"}
+    variables = %{placeId: place_gid, startDate: "2025-11-11", endDate: "2025-11-15"}
 
     conn =
       conn
@@ -35,17 +32,15 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.CreateBookingTest do
              "startDate" => "2025-11-11",
              "endDate" => "2025-11-15",
              "state" => "reserved",
-             "place" => place
+             "place" => %{"id" => ^place_gid}
            } = booking
-
-    assert %{"id" => ^place_id, "name" => ^name} = place
   end
 
-  test "return error when invalid params", %{conn: conn} do
+  test "return error when place_id is internal place id", %{conn: conn} do
     user = insert(:user)
-    %Place{id: place_id} = insert(:place)
+    place_gid = insert(:place) |> to_global_id(:place)
 
-    variables = %{placeId: place_id, startDate: "2025-11-11", endDate: "2025-01-01"}
+    variables = %{placeId: place_gid, startDate: "2025-11-11", endDate: "2025-01-01"}
 
     conn =
       conn
@@ -80,7 +75,7 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.CreateBookingTest do
 
   test "return authentication_required error when token expired", %{conn: conn} do
     user = insert(:user)
-    %Place{id: place_id} = insert(:place)
+    %{id: place_id} = insert(:place)
 
     variables = %{placeId: place_id, startDate: "2025-11-11", endDate: "2025-01-01"}
 

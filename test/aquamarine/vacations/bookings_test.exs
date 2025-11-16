@@ -30,63 +30,84 @@ defmodule Aquamarine.Vacations.BookingsTest do
   describe "create_booking/2" do
     test "return created booking" do
       user = insert(:user)
-      place = insert(:place)
+      place_gid = insert(:place) |> to_global_id(:place)
 
-      valid_attr = %{place_id: place.id, start_date: ~D[2025-11-11], end_date: ~D[2025-12-12]}
+      attr = %{place_id: place_gid, start_date: ~D[2025-11-11], end_date: ~D[2025-12-12]}
 
-      assert {:ok, %Booking{}} = Bookings.create_booking(user, valid_attr)
+      assert {:ok, %Booking{}} = Bookings.create_booking(user, attr)
+    end
+
+    test "when invalid user param" do
+      user = %{id: Ecto.UUID.generate(), email: "testemail@mail.com"}
+      place_gid = %{id: Ecto.UUID.generate()} |> to_global_id(:place)
+
+      attr = %{place_id: place_gid, start_date: ~D[2025-11-11], end_date: ~D[2025-12-12]}
+
+      assert {:error, "Invalid input params"} = Bookings.create_booking(user, attr)
     end
 
     test "when invalid place id" do
       user = insert(:user)
+      place_gid = %{id: Ecto.UUID.generate()} |> to_global_id(:place)
 
-      attr = %{
-        place_id: Ecto.UUID.generate(),
-        start_date: ~D[2025-11-11],
-        end_date: ~D[2025-12-12]
-      }
+      attr = %{place_id: place_gid, start_date: ~D[2025-11-11], end_date: ~D[2025-12-12]}
 
       assert {:error, %Ecto.Changeset{} = changeset} = Bookings.create_booking(user, attr)
-
-      assert "Cannot calculate total price: invalid period or place" in errors_on(changeset).total_price
+      assert "place not found" in errors_on(changeset).place_id
     end
 
     test "when invalid period" do
       user = insert(:user)
-      place = insert(:place)
+      place_gid = insert(:place) |> to_global_id(:place)
 
-      attr = %{place_id: place.id, start_date: ~D[2025-12-12], end_date: ~D[2025-01-01]}
+      attr = %{place_id: place_gid, start_date: ~D[2025-12-12], end_date: ~D[2025-01-01]}
 
       assert {:error, %Ecto.Changeset{} = changeset} = Bookings.create_booking(user, attr)
-
       assert "cannot be after :end_date" in errors_on(changeset).start_date
+    end
+
+    test "when place_id is internal place_id" do
+      user = insert(:user)
+      %{id: place_id} = insert(:user)
+
+      attr = %{place_id: place_id, start_date: ~D[2025-11-11], end_date: ~D[2025-12-12]}
+      message = "Could not decode ID value `#{place_id}'"
+      assert {:error, ^message} = Bookings.create_booking(user, attr)
     end
   end
 
   describe "cancel_booking/1" do
     test "returns canceled booking" do
       user = insert(:user)
-      booking = insert(:booking, state: :reserved, user: user)
+      booking_gid = insert(:booking, state: :reserved, user: user) |> to_global_id(:booking)
 
-      assert {:ok, %Booking{state: :canceled}} = Bookings.cancel_booking(user, booking)
+      assert {:ok, %Booking{state: :canceled}} = Bookings.cancel_booking(user, %{id: booking_gid})
     end
 
     test "does not upd record in seconf time" do
       user = insert(:user)
-      booking = insert(:booking, state: :reserved, user: user)
+      booking_gid = insert(:booking, state: :reserved, user: user) |> to_global_id(:booking)
 
-      assert {:ok, %Booking{state: :canceled, updated_at: updated_at} = canceled_booking} =
-               Bookings.cancel_booking(user, booking)
+      assert {:ok, %Booking{state: :canceled, updated_at: updated_at}} =
+               Bookings.cancel_booking(user, %{id: booking_gid})
 
       assert {:ok, %Booking{state: :canceled, updated_at: ^updated_at}} =
-               Bookings.cancel_booking(user, canceled_booking)
+               Bookings.cancel_booking(user, %{id: booking_gid})
+    end
+
+    test "when booking_id is internal booking_id" do
+      user = insert(:user)
+      booking = insert(:booking, state: :reserved, user: user)
+
+      message = "Could not decode ID value `#{booking.id}'"
+      assert {:error, ^message} = Bookings.cancel_booking(user, %{id: booking.id})
     end
 
     test "unauthorized user" do
       user = insert(:user)
-      booking = insert(:booking, state: :reserved)
+      booking_gid = insert(:booking, state: :reserved) |> to_global_id(:booking)
 
-      assert {:error, :unauthorized} = Bookings.cancel_booking(user, booking)
+      assert {:error, :unauthorized} = Bookings.cancel_booking(user, %{id: booking_gid})
     end
   end
 end

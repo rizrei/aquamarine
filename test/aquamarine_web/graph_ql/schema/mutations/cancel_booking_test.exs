@@ -14,24 +14,25 @@ defmodule AquamarineWeb.GraphQL.Schema.Mutations.CancelBookingTest do
   test "cancel booking when params valid", %{conn: conn} do
     user = insert(:user)
     place = insert(:place)
-    %{id: id} = insert(:booking, user: user, place: place)
+    booking_gid = insert(:booking, user: user, place: place) |> to_global_id(:booking)
 
     conn =
       conn
       |> authenticate(user)
-      |> graphql_query(@mutation, %{id: id})
+      |> graphql_query(@mutation, %{id: booking_gid})
 
     assert %{"data" => %{"cancelBooking" => booking}} = json_response(conn, 200)
-    assert %{"id" => ^id, "state" => "canceled"} = booking
+    assert %{"id" => ^booking_gid, "state" => "canceled"} = booking
   end
 
   test "return record_not_found error when booking does not exist", %{conn: conn} do
     user = insert(:user)
+    booking_gid = %{id: Ecto.UUID.generate()} |> to_global_id(:booking)
 
     conn =
       conn
       |> authenticate(user)
-      |> graphql_query(@mutation, %{id: Ecto.UUID.generate()})
+      |> graphql_query(@mutation, %{id: booking_gid})
 
     assert %{"errors" => errors} = json_response(conn, 200)
     assert "Record not found" in graphql_error_messages(errors)

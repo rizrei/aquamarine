@@ -14,8 +14,7 @@ defmodule AquamarineWeb.GraphQL.Schema.PlaceTypes do
   alias AquamarineWeb.GraphQL.Middleware
   alias AquamarineWeb.GraphQL.Resolvers.Vacations.Places
 
-  object :place do
-    field :id, non_null(:id)
+  node object(:place) do
     field :name, non_null(:string)
     field :location, non_null(:string)
     field :slug, non_null(:string)

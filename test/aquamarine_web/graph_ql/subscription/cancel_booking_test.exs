@@ -22,12 +22,17 @@ defmodule AquamarineWeb.Schema.Subscription.CancelBookingTest do
   test "canceled booking can be subscribed to", %{socket: socket, conn: conn} do
     user = insert(:user)
     place = insert(:place)
-    %{id: booking_id} = insert(:booking, user: user, place: place)
+    place_gid = to_global_id(place, :place)
+
+    booking_gid =
+      :booking
+      |> insert(user: user, place: place)
+      |> to_global_id(:booking)
 
     #
     # 1. Setup the subscription
     #
-    ref = push_doc(socket, @subscription, variables: %{placeId: place.id})
+    ref = push_doc(socket, @subscription, variables: %{placeId: place_gid})
     assert_reply ref, :ok, %{subscriptionId: subscription_id}
 
     #
@@ -36,15 +41,15 @@ defmodule AquamarineWeb.Schema.Subscription.CancelBookingTest do
     conn =
       conn
       |> authenticate(user)
-      |> graphql_query(@mutation, %{id: booking_id})
+      |> graphql_query(@mutation, %{id: booking_gid})
 
-    assert %{"data" => %{"cancelBooking" => %{"id" => ^booking_id}}} = json_response(conn, 200)
+    assert %{"data" => %{"cancelBooking" => %{"id" => ^booking_gid}}} = json_response(conn, 200)
 
     #
     # 3. Assert that the expected subscription data was pushed to us
     #
     assert_push "subscription:data", payload
     assert %{result: result, subscriptionId: ^subscription_id} = payload
-    assert %{data: %{"bookingChange" => %{"id" => ^booking_id}}} = result
+    assert %{data: %{"bookingChange" => %{"id" => ^booking_gid}}} = result
   end
 end
